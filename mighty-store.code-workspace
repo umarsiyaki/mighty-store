@@ -1,0 +1,58 @@
+{
+	"folders": [
+		{
+			"path": "../Oladayo/Inventory-Management-System-main"
+		}
+	],
+	"settings": {
+		"AutoPreview.serverURL": "http://localhost:",
+		"AutoPreview.background": "transparent",
+		"debug.javascript.autoAttachFilter": "smart",
+		"npm.enableRunFromFolder": true,
+		"npm.runSilent": true,
+		"terminal.integrated.automationProfile.linux": {
+
+		},
+		"editor.unicodeHighlight.includeComments": true,
+		"AutoPreview.center": false,
+		"AutoPreview.locked": false,
+		"files.autoSave": "onFocusChange",
+		"editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+		"editor.defaultFormatter": "jawei.autopreviewer",
+		"editor.experimental.pasteActions.enabled": true,
+		"editor.formatOnPaste": true,
+		"editor.suggest.preview": true,
+		"files.associations": {
+			".jsx": "javascript",
+			".ejs": "javascript"
+		},
+		"files.autoGuessEncoding": true,
+		"workbench.experimental.cloudChanges.autoStore": "onShutdown",
+		"debug.internalConsoleOptions": "openOnSessionStart",
+		"remote.localPortHost": "allInterfaces",
+		"[html]": {
+			"editor.defaultFormatter": "vscode.html-language-features"
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-mssql.mssql",
+			"jawei.autopreviewer",
+			"bianxianyang.htmlplay",
+			"wscats.cors-browser",
+			"msjsdiag.vscode-react-native-preview",
+			"jccr.sandbox",
+			"andrewbutson.vscode-openai",
+			"ms-toolsai.vscode-jupyter-cell-tags",
+			"ms-toolsai.jupyter-keymap",
+			"ms-mssql.data-workspace-vscode",
+			"firefox-devtools.vscode-firefox-debug",
+			"xuangeaha.chartjs",
+			"ritwickdey.liveserver",
+			"ms-python.vscode-pylance",
+			"ms-python.python",
+			"ms-mssql.sql-bindings-vscode",
+			"ms-mssql.sql-database-projects-vscode"
+		]
+	}
+}
