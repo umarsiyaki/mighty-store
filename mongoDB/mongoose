@@ -1,0 +1,159 @@
+const mongoose = require('mongoose');
+
+const cashierSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const Cashier = mongoose.model('Cashier', cashierSchema);
+
+module.exports = Cashier;
+
+const adminSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const admin = mongoose.model('admin', adminSchema);
+
+module.exports = admin;
+
+const productSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const product = mongoose.model('product', productSchema);
+
+module.exports = product;
+
+const crateproductSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const crateproduct = mongoose.model('crateproduct', crateproductSchema);
+
+module.exports = crateproduct;
+
+const updateProductSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const updateProduct = mongoose.model('updateProduct', updateProductSchema);
+
+module.exports = updateProduct;
+
+const marketSchema = new mongoose.Schema({
+    productname: { type: String, required: true },
+    productId: { type: String, required: true },
+    productCategory: { type: String, required: true },
+    productPrice: { type: String, required: true },
+    productTrackingId: { type: String, required: true },
+    store: { type: String, required: true },
+    quantity: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const market = mongoose.model('market', marketSchema);
+
+module.exports = market;
+
+const blogSchema = new mongoose.Schema({
+    authorName: { type: String, required: true },
+    authorimage: { type: String, required: true },
+    Comment: { type: String, required: true },
+    address: { type: String, required: true },
+    //AND OTHR BOLG FUNCTIONS
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const blog = mongoose.model('blog', blogSchema);
+
+module.exports = blog;
+
+const USeRSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const USeR = mongoose.model('USeR', USeRSchema);
+
+module.exports = USeR;
+
+const indexSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const index = mongoose.model('index', indexSchema);
+
+module.exports = index;
+
+const slideSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const slide = mongoose.model('slide', slideSchema);
+
+module.exports = slide;
+
+const calculatorSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const calculator = mongoose.model('calculator', calculatorSchema);
+
+module.exports = calculator;
+
+const orderSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const order = mongoose.model('order', orderSchema);
+
+module.exports = order;
+
+const receiptSchema = new mongoose.Schema({
+    username: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String, required: true },
+    password: { type: String, required: true },
+}, { timestamps: true }); // Automatically creates 'createdAt' and 'updatedAt' fields
+
+const receipt = mongoose.model('receipt', receiptSchema);
+
+module.exports = receipt;
