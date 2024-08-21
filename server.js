@@ -177,3 +177,47 @@ const PORT = config.server.port || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const { sequelize } = require('./config/database');
+const bodyParser = require('body-parser');
+
+// Models
+const Cashier = require('./models/cashier');
+const Location = require('./models/location');
+
+// Middleware
+app.use(bodyParser.json());
+
+// Routes
+const cashierRoutes = require('./routes/cashierRoutes');  // Define routes in `routes/cashierRoutes.js`
+app.use('/api/cashier', cashierRoutes);
+
+// Static Files (e.g., frontend files)
+app.use(express.static('public'));
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+// server.js
+const app = require('./app');
+const connectDB = require('./database');
+
+// Connect to the database
+connectDB();
+
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

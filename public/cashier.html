@@ -144,7 +144,7 @@
     </div>
     <!-- Content End -->
 </div>
-
+<%= %>
             <!-- Sale & Revenue Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
@@ -187,7 +187,7 @@
                 </div>
             </div>
             <!-- Sale & Revenue End -->
-
+<%= %>
 
             <!-- Sales Chart Start -->
             <div class="container-fluid pt-4 px-4">
@@ -200,7 +200,7 @@
                 </div>
             </div>
             <!-- Sales Chart End -->
-
+<%= %>
 
             <!-- Recent Sales Start -->
             <div class="container-fluid pt-4 px-4">
@@ -274,7 +274,7 @@
                 </div>
             </div>
             <!-- Recent Sales End -->
-
+<%= %>
 
             <!-- Widgets Start -->
             <div class="container-fluid pt-4 px-4">
@@ -373,6 +373,8 @@
             <!-- Widgets End -->
 
 
+  <h1>Cashier List</h1>
+  <ul id="cashier-list"></ul>
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-secondary rounded-top p-4">
@@ -393,7 +395,28 @@
         </div>
         <!-- Content End -->
 
+  <script>
+    async function fetchCashiers() {
+      try {
+        const response = await fetch('/cashiers/all');
+        const cashiers = await response.json();
 
+        const cashierList = document.getElementById('cashier-list');
+        cashierList.innerHTML = '';
+
+        cashiers.forEach(cashier => {
+          const li = document.createElement('li');
+          li.textContent = `${cashier.username} - ${cashier.email}`;
+          cashierList.appendChild(li);
+        });
+      } catch (error) {
+        console.error('Error fetching cashiers:', error);
+      }
+    }
+
+    // Auto-fetch cashiers when page loads
+    window.onload = fetchCashiers;
+  </script>
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
