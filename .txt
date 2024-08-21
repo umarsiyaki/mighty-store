@@ -1,76 +1,1097 @@
-this is addcashir
-document.getElementById('add-cashier-form').addEventListener('submit', function(event) {
-  event.preventDefault();
-  
-  const cashierName = document.getElementById('cashier-name').value;
-  const cashierEmail = document.getElementById('cashier-email').value;
-  const cashierPassword = document.getElementById('cashier-password').value;
-  
-  // Perform form validation and submission logic here
-  
-  console.log('Cashier added:', {
-    cashierName,
-    cashierEmail,
-    cashierPassword
-  });
-  
-  // Redirect to admin dashboard or show success message
+To implement the cashier addition feature with routes, controllers, and DOM updates, here’s a step-by-step guide to adding the necessary files and routes to your project.
+
+### 1. Create `addcashier.js` Controller
+
+In your `../controller/addcashier.js`, define the logic for handling cashier creation:
+
+```js
+// ../controller/addcashier.js
+const { sendEmail } = require('../services/emailService'); // Assuming you have an email service module
+const Cashier = require('../models/Cashier'); // Replace with your actual model
+
+exports.addCashier = async (req, res) => {
+  try {
+    const { username, email, phone, address, password } = req.body;
+    
+    // Create new cashier and save to database
+    const newCashier = new Cashier({ username, email, phone, address, password });
+    await newCashier.save();
+
+    // Send email to the cashier with their login details
+    const emailResponse = await sendEmail({
+      to: email,
+      subject: 'Welcome to Our Team',
+      body: `Hello ${username}, your account has been created. Your login details are Username: ${username} and Password: ${password}`,
+    });
+
+    res.status(201).json({ success: true, message: 'Cashier added successfully', emailResponse });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Error adding cashier', error });
+  }
+};
+```
+
+### 2. Create `addcashier.js` Routes
+
+Create the route file `addcashier.js` inside the `../../../routes/` directory:
+
+```js
+// ../../../routes/addcashier.js
+const express = require('express');
+const router = express.Router();
+const { addCashier } = require('../controller/addcashier');
+
+// POST route to add a cashier
+router.post('/add', addCashier);
+
+module.exports = router;
+```
+
+### 3. Integrate Route in `app.js`
+
+Update your `app.js` to include the new route and serve the `addcashier.html` DOM:
+
+```js
+
+```
+
+### 4. `addcashier.html`
+
+Ensure your `addcashier.html` form has the appropriate IDs and structure:
+
+```html
+```
+
+### 5. Email Service (`emailService.js`)
+
+Ensure your email service is set up correctly for sending notifications:
+
+```js
+
+```
+
+### Summary of Setup
+- **Controller** (`../controller/addcashier.js`): Handles adding cashier and sending email notifications.
+- **Routes** (`../../../routes/addcashier.js`): Defines API routes for cashier creation.
+- **App Integration** (`app.js`): Adds the route `/addcashier` and serves the HTML file.
+- **HTML** (`addcashier.html`): Simple form for adding cashier details, linked to JavaScript.
+- **Email Service**: Sends email notifications when a cashier is added.
+
+This setup should integrate smoothly with your `addcashier.html` page and provide cashier-adding functionality, with appropriate notifications. Let me know if you need further adjustments!
+
+To set up your `cashier.html` page to automatically fetch data using routes, controllers, models, and services, and integrate with your `app.js`, `index.js`, `server.js`, and MongoDB/Mongoose, you'll need to follow a structured approach.
+
+Here is an outline of what we'll do:
+
+### 1. **Set Up Mongoose Model**
+You need a `Cashier` model that will define the schema for your MongoDB.
+
+```js
+```
+
+### 2. **Create the Service Layer**
+This will handle business logic, like creating a cashier or retrieving cashier data.
+
+```js
+```
+
+### 3. **Create the Controller Layer**
+This will handle requests and responses, and will interact with the service layer.
+
+```js
+```
+
+### 4. **Set Up the Routes**
+Now you create the necessary routes to fetch and add cashiers.
+
+```js
+
+```
+
+### 2. **Update `mongoose` Configuration**
+
+If you have a separate `mongoose.js` file that handles configurations, you can ensure it uses the latest Mongoose configurations and exports the instance.
+
+```js
+```
+
+### 3. **Update `server.js`**
+
+The `server.js` file should now integrate the `database.js` connection logic and start the Express server.
+
+```js
+```
+
+### 4. **Refactor Existing Code to Use New Setup**
+
+If your project already had some configurations, ensure that:
+
+- The `mongoose.connect` logic is centralized in `database.js` or `mongoose.js`.
+- Your `app.js` file handles only middleware and routing logic.
+- `server.js` is focused on bootstrapping the application by connecting to the database and starting the server.
+
+### 5. **Ensure All Dependencies Are Installed**
+
+Ensure your project has all necessary dependencies installed. Run:
+
+```bash
+
+```
+
+### 6. **Testing the Updated Setup**
+
+- **Start MongoDB**: Ensure your MongoDB server is running by executing `mongod` in your terminal.
+- **Run the Application**: Start your server by running `node server.js` or `nodemon server.js` if you are using Nodemon.
+
+### 7. **Verify Database Connection and Routes**
+
+You can verify the connection and route setup by checking:
+
+- **Database Connection**: Confirm the connection message (`MongoDB connected successfully`) in the console.
+- **API Routes**: Use tools like Postman or CURL to test the `/cashiers/add` and `/cashiers/all` endpoints.
+
+### 8. **Handle Errors Gracefully**
+
+Make sure to handle any errors gracefully. The connection logic in `database.js` is wrapped in a `try-catch` block to handle and log any errors during the connection.
+
+With these updates, your database connection, Mongoose configuration, and server setup should now be well-integrated into your project. Your application will be ready to interact with MongoDB and serve your routes effectively.
+
+Here's how you can integrate and update your project based on the provided files for `cashier.js`, `addcashier.js`, `models/cashier.js`, and `location.js`. I'll provide instructions and updates for your database, route files, and any additional needed configurations.
+
+### 1. **`database.js` Update** (Integration with Mongoose and Sequelize)
+Make sure your `database.js` is set up for both MongoDB and Sequelize to support both `Cashier` and `Location` models.
+
+```js
+```
+
+### 2. **`server.js` Update** (Route and Controller Integration)
+
+Ensure your `server.js` includes the routes for cashier and product updates:
+
+```js
+```
+
+### 3. **`routes/cashierRoutes.js`**
+Define the routes for handling cashier addition and updating in your backend:
+
+```js
+```
+
+### 4. **Frontend JavaScript (`cashier.js` and `addcashier.js`)**
+These files already provide frontend logic for product updates and adding cashiers. Ensure that you have these JS files loaded into the correct pages on your frontend (e.g., through `<script>` tags or as modules in your frontend structure).
+
+For example, in `cashier.html`:
+
+```html
+<script src="/js/cashier.js"></script>
+```
+
+### 5. **Mongoose and Sequelize Models**
+- Ensure that you are using both Mongoose and Sequelize effectively, as shown in the `cashier.js` and `location.js` files. 
+- For Mongoose, ensure you're using the correct schemas and connecting properly.
+
+### Next Steps
+Now that your backend and frontend logic is set up, test the following:
+- Add a cashier through your frontend form, which should trigger the `addCashier` route in the backend.
+- Check that the data is saved correctly in your MongoDB or MySQL databases.
+- Implement error handling and success messages for the forms.
+- Test product updates, making sure the details are sent via the `fetch` requests and saved in the backend.
+
+Would you like to proceed with a more specific feature or have any other aspects you want to refine further
+
+
+To achieve your goal of creating a dynamic marketing page using the provided HTML files, here are the steps and instructions:
+
+### 1. **Understanding the Goal:**
+   - You are trying to integrate the dynamic display of product data on a marketing page.
+   - You want to ensure that products can be fetched from the server and displayed properly on the HTML front end.
+
+### 2. **Setting up the HTML Files:**
+   Let's assume you have the following structure based on what you've provided:
+   - **`marketing.html`**: This is your main page for displaying the product.
+   - **`product.html`**: Used for individual product details.
+   - **`calculator.html`**: For product quantity management.
+   
+### 3. **Backend - Express.js Setup:**
+   We'll set up the route and logic to fetch product data dynamically.
+
+   **Step 1: Create a route to fetch the products**
+   - In your `app.js` file, ensure you include a route that fetches product data.
+
+   Example:
+   ```js
+   const express = require('express');
+   const app = express();
+   const path = require('path');
+   
+   // Serve static files like CSS, JS, Images
+   app.use(express.static(path.join(__dirname, 'public')));
+   
+   // Route to fetch products dynamically
+   app.get('/api/products', (req, res) => {
+       // Sample product data, replace with your database query
+       const products = [
+           { id: 1, name: 'Coca-Cola', price: 50, description: 'Coca-Cola drink.', image: 'coca_cola.jpg' },
+           { id: 2, name: 'Pepsi', price: 45, description: 'Pepsi drink.', image: 'pepsi.jpg' },
+           // Add more products as needed
+       ];
+       res.json(products);
+   });
+
+   // Serve the marketing page
+   app.get('/marketing', (req, res) => {
+       res.sendFile(path.join(__dirname, 'views/marketing.html'));
+   });
+
+   app.listen(3000, () => console.log('Server running on port 3000'));
+   ```
+
+   - This will allow your frontend to dynamically fetch product data by accessing `/api/products`.
+
+### 4. **Frontend - Displaying the Products Dynamically:**
+   Now, in your `marketing.html`, you'll want to fetch this data from the server and populate your product cards dynamically.
+
+   **Step 2: Fetch products using JavaScript**
+
+   In your `marketing.html` file, include a script to fetch the products and display them on the page.
+
+   Example:
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Marketing Page</title>
+       <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+       <div id="product-list" class="product-grid"></div>
+
+       <script>
+           document.addEventListener('DOMContentLoaded', function() {
+               fetch('/api/products')
+                   .then(response => response.json())
+                   .then(data => {
+                       const productList = document.getElementById('product-list');
+                       
+                       data.forEach(product => {
+                           const productCard = document.createElement('div');
+                           productCard.classList.add('product-card');
+                           
+                           productCard.innerHTML = `
+                               <img src="${product.image}" alt="${product.name}">
+                               <h3>${product.name}</h3>
+                               <p>${product.description}</p>
+                               <span>Price: $${product.price}</span>
+                               <a href="product.html?id=${product.id}">View Product</a>
+                           `;
+                           
+                           productList.appendChild(productCard);
+                       });
+                   });
+           });
+       </script>
+   </body>
+   </html>
+   ```
+
+   - Here, we're using the `fetch` API to get the product data from the backend. Once the data is received, we loop through each product and create HTML elements to display them.
+
+### 5. **Styling the Page:**
+   Ensure that your CSS is properly set up in the `styles.css` file to style your product cards.
+
+   Example:
+   ```css
+   .product-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+       gap: 20px;
+       padding: 20px;
+   }
+
+   .product-card {
+       border: 1px solid #ccc;
+       padding: 15px;
+       text-align: center;
+       background-color: #fff;
+   }
+
+   .product-card img {
+       max-width: 100%;
+       height: auto;
+   }
+
+   .product-card h3 {
+       margin: 10px 0;
+   }
+
+   .product-card a {
+       display: inline-block;
+       margin-top: 10px;
+       padding: 10px 20px;
+       background-color: #007bff;
+       color: #fff;
+       text-decoration: none;
+   }
+   ```
+
+   - This will make your marketing page display the products in a responsive grid.
+
+### 6. **Dynamic Links and Further Enhancements:**
+   In your `product.html`, you can further enhance it by dynamically displaying the product details based on the URL query parameters (`?id=product_id`).
+
+   For example, in `product.html`:
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Product Details</title>
+       <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+       <div id="product-details"></div>
+
+       <script>
+           document.addEventListener('DOMContentLoaded', function() {
+               const params = new URLSearchParams(window.location.search);
+               const productId = params.get('id');
+               
+               fetch(`/api/products/${productId}`)
+                   .then(response => response.json())
+                   .then(product => {
+                       const productDetails = document.getElementById('product-details');
+                       productDetails.innerHTML = `
+                           <h2>${product.name}</h2>
+                           <img src="${product.image}" alt="${product.name}">
+                           <p>${product.description}</p>
+                           <span>Price: $${product.price}</span>
+                       `;
+                   });
+           });
+       </script>
+   </body>
+   </html>
+   ```
+
+   - Ensure your backend has an API endpoint like `/api/products/:id` to fetch individual product details.
+
+---
+
+### Summary:
+- **Backend:** Set up routes to serve the products dynamically using Express.js.
+- **Frontend:** Fetch product data via `fetch()` and dynamically display it using JavaScript.
+- **CSS:** Style the product cards to make them visually appealing and responsive.
+
+With this setup, your marketing page should dynamically fetch and display products, allowing users to view and interact with them.The `marketing.html` file seems to be the frontend structure for your marketing page with product sections displayed. Now, to implement the message and notification functionality, we will set up the following steps:
+
+### Steps:
+
+1. **Create Endpoints for Messages and Notifications (Backend)**:
+    Ensure your backend exposes API endpoints that fetch messages and notifications for each user role. These endpoints will return the necessary data (e.g., unread messages, notifications, timestamps).
+
+2. **Create Message and Notification Fetch Functions (Frontend)**:
+    On the frontend, we will write JavaScript functions to fetch data for both messages and notifications. These functions will be invoked when the dropdowns are clicked.
+
+3. **Update the UI Dynamically**:
+    Dynamically load the fetched messages/notifications into the dropdowns within the `marketing.html` file.
+
+### Sample Backend API Routes (Express.js)
+Make sure to have these routes in your `controller/notification.js` and `controller/message.js`.
+
+```js
+// notifications.js
+const express = require('express');
+const router = express.Router();
+
+// Mock notification data
+const notifications = [
+    { title: "Profile updated", time: "15 minutes ago" },
+    { title: "New user added", time: "30 minutes ago" },
+    { title: "Password changed", time: "1 hour ago" }
+];
+
+// Route to fetch notifications
+router.get('/fetch', (req, res) => {
+    res.json(notifications);
 });
 
+module.exports = router;
+```
 
-document.getElementById('add-cashier-form').addEventListener('submit', function(event) {
-  event.preventDefault();
+```js
+// messages.js
+const express = require('express');
+const router = express.Router();
 
-  const cashierData = {
-      username: document.getElementById('username').value,
-      email: document.getElementById('email').value,
-      phone: document.getElementById('phone').value,
-      address: document.getElementById('address').value,
-      password: document.getElementById('password').value
-  };
+// Mock message data
+const messages = [
+    { title: "New order received", time: "10 minutes ago" },
+    { title: "Product restocked", time: "20 minutes ago" }
+];
 
-  fetch('/api/cashier/add', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(cashierData),
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          document.getElementById('notification').textContent = 'Cashier added successfully.';
-          sendEmailNotification(cashierData);
-      } else {
-          document.getElementById('notification').textContent = 'Error adding cashier.';
-      }
-  })
-  .catch(error => {
-      console.error('Error:', error);
-      document.getElementById('notification').textContent = 'Error adding cashier.';
-  });
+// Route to fetch messages
+router.get('/fetch', (req, res) => {
+    res.json(messages);
+});
 
-  function sendEmailNotification(cashierData) {
-      fetch('/api/send-email', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-              to: cashierData.email,
-              subject: 'Welcome to Our Team',
-              body: `Hello ${cashierData.username}, your account has been created. Your login details are Username: ${cashierData.username} and Password: ${cashierData.password}`
-          }),
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.success) {
-              console.log('Email sent successfully.');
-          } else {
-              console.error('Error sending email.');
-          }
-      })
-      .catch(error => console.error('Error:', error));
+module.exports = router;
+```
+
+### Frontend: Fetching and Displaying Data (JavaScript)
+Add the following JavaScript to fetch the data and display it dynamically in the dropdowns.
+
+```html
+<script>
+// Fetch messages when the dropdown is clicked
+document.querySelector('.message-dropdown').addEventListener('click', function () {
+    fetch('/messages/fetch')
+        .then(response => response.json())
+        .then(data => {
+            const messageDropdown = document.querySelector('.message-dropdown .dropdown-menu');
+            messageDropdown.innerHTML = ''; // Clear existing messages
+
+            data.forEach(msg => {
+                messageDropdown.innerHTML += `
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">${msg.title}</h6>
+                        <small>${msg.time}</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                `;
+            });
+
+            messageDropdown.innerHTML += `<a href="#" class="dropdown-item text-center">See all messages</a>`;
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+});
+
+// Fetch notifications when the dropdown is clicked
+document.querySelector('.notification-dropdown').addEventListener('click', function () {
+    fetch('/notifications/fetch')
+        .then(response => response.json())
+        .then(data => {
+            const notificationDropdown = document.querySelector('.notification-dropdown .dropdown-menu');
+            notificationDropdown.innerHTML = ''; // Clear existing notifications
+
+            data.forEach(notif => {
+                notificationDropdown.innerHTML += `
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">${notif.title}</h6>
+                        <small>${notif.time}</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                `;
+            });
+
+            notificationDropdown.innerHTML += `<a href="#" class="dropdown-item text-center">See all notifications</a>`;
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+});
+</script>
+```
+
+### Integrating into `marketing.html`
+Now, update the dropdown classes in `marketing.html` to trigger the fetch functions. Ensure the dropdowns have the correct classes:
+
+```html
+<div class="nav-item dropdown message-dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="fa fa-envelope me-lg-2"></i>
+        <span class="d-none d-lg-inline-flex">Message</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0"></div>
+</div>
+<div class="nav-item dropdown notification-dropdown">
+    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+        <i class="fa fa-bell me-lg-2"></i>
+        <span class="d-none d-lg-inline-flex">Notification</span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0"></div>
+</div>
+```
+
+This setup will dynamically load messages and notifications from the backend whenever the respective dropdowns are clicked, improving user interactivity.
+
+Let me know if you need help with specific parts of the code!To achieve your goals for the marketing page using the provided `marketing.html` and `marketing.js` files, here are the step-by-step instructions:
+
+### 1. **Integrate Product Calculator Functionality**
+
+You want the product calculator to dynamically update product quantities, prices, and other details on the marketing page.
+
+#### Steps:
+1. **Add Event Listeners to the Calculator Buttons**:
+    - Open `marketing.js`.
+    - Identify the calculator buttons for addition, subtraction, multiplication, and division.
+    - Attach event listeners to these buttons to trigger calculations when clicked.
+
+    ```javascript
+    document.getElementById('plusButton').addEventListener('click', function() {
+        // Code to handle addition and update the product quantity
+    });
+
+    document.getElementById('minusButton').addEventListener('click', function() {
+        // Code to handle subtraction and update the product quantity
+    });
+
+    document.getElementById('multiplyButton').addEventListener('click', function() {
+        // Code to handle multiplication and update the product quantity
+    });
+
+    document.getElementById('divideButton').addEventListener('click', function() {
+        // Code to handle division and update the product quantity
+    });
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(data => {
+            // Populate the marketing page with product data
+            populateProducts(data);
+        });
+    function updateProductDetails(productId, newQuantity) {
+// Code to update the product quantity and other details in the UI
+}
+
+3. **Update Product Details**:
+    - When a calculator button is clicked, the product details (quantity, price, etc.) should be updated based on the calculation.
+    - Write the necessary JavaScript code to handle this logic and update the UI accordingly.
+
+    ```javascript
+    
+    ```
+
+4. **Post Updates to the Server**:
+    - After updating the product details on the UI, send the updated data back to the server to keep the database in sync.
+    - This can be done using a `POST` request in JavaScript.
+
+    ```javascript
+    ```
+
+### 2. **Ensure Proper DOM Manipulation**
+
+Make sure the `marketing.js` script correctly manipulates the DOM to display the updated product information. The script should:
+- Update product quantities, prices, and other relevant details in real time.
+- Reflect these changes both on the frontend (UI) and backend (database).
+
+### 3. **Modify HTML Structure If Needed**
+
+If your current `marketing.html` does not fully support the functionalities you need, consider making structural changes to the HTML:
+- Add placeholders or elements for dynamic content updates (e.g., product details, quantities).
+- Ensure that these elements have unique IDs or classes for easy targeting by JavaScript.
+
+### 4. **Test the Functionality**
+
+Finally, test the functionality:
+- Ensure that all calculator operations update the product information as expected.
+- Check that the UI reflects these changes and that the backend data is updated accordingly.
+- Verify that the integration with `marketing.js` works seamlessly with the HTML structure.
+
+By following these steps, you can achieve the goals you have for integrating a calculator into your marketing page, updating product details dynamically, and ensuring that everything is synced with your backend.
+Understood. Based on your goals and the provided HTML, here's a structured approach to achieving them:
+
+### Objective
+To create a marketing page that incorporates sections for showcasing products, navigating between store features, and interacting with the inventory system. This page should dynamically display products, have functional navigation elements, and respond to user interaction.
+
+### Instructions
+
+1. **Setting up the HTML Layout**
+   - Your HTML layout will include sections for **product displays**, **search functionality**, and **interactive elements** like buttons or links that trigger store-related actions.
+   - You mentioned focusing on elements such as product showcases, navbar links, product management, and interactive buttons for updating product details. Here’s how you can implement it:
+
+#### HTML Structure Example:
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Page</title>
+    <link rel="stylesheet" href="path/to/bootstrap.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Custom Styles -->
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="products.html">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="addproduct.html">Add Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="trackorder.html">Track Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="store.html">Store</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center">
+        <h1>Welcome to Our Store!</h1>
+        <p>Your one-stop shop for all things amazing.</p>
+        <button class="btn btn-primary">Explore Products</button>
+    </header>
+
+    <!-- Product Showcase Section -->
+    <section class="product-showcase container mt-5">
+        <div class="row">
+            <div class="col-md-4 product-card">
+                <img src="path/to/product1.jpg" class="img-fluid" alt="Product Image">
+                <h4>Product Name 1</h4>
+                <p>$20.00</p>
+                <a href="#" class="btn btn-info">Buy Now</a>
+            </div>
+            <!-- Repeat Product Cards for more items -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light text-center py-4">
+        <p>&copy; 2024 Your Store. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS and other scripts -->
+    <script src="path/to/bootstrap.js"></script>
+    <script src="scripts.js"></script> <!-- Custom Script -->
+</body>
+
+</html>
+```
+
+### Key Elements:
+1. **Navbar:**
+   - `Products`, `Add Product`, `Track Order`, and `Store` links will allow users to navigate to different parts of your inventory system.
+   - You may need to adjust the paths of the links depending on your file structure and backend routes.
+
+2. **Hero Section:**
+   - Acts as a welcoming section with a **call-to-action** button (e.g., "Explore Products") that can navigate users to the product section or another specific page.
+
+3. **Product Showcase:**
+   - Products are displayed in cards. You can dynamically generate these cards with JavaScript by pulling product data from your backend (via an API or database call).
+
+4. **Footer:**
+   - A simple footer with store information.
+
+### Adding Dynamic Product Data with JavaScript
+To dynamically populate the product section based on your inventory data, you can use JavaScript to pull product details from your server and render them.
+
+#### Example Script (scripts.js):
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch products from an API or database
+    fetch('/api/products')
+        .then(response => response.json())
+        .then(products => {
+            const productContainer = document.querySelector('.product-showcase .row');
+            products.forEach(product => {
+                const productCard = `
+                    <div class="col-md-4 product-card">
+                        <img src="${product.image}" class="img-fluid" alt="Product Image">
+                        <h4>${product.name}</h4>
+                        <p>$${product.price}</p>
+                        <a href="/buy/${product.id}" class="btn btn-info">Buy Now</a>
+                    </div>
+                `;
+                productContainer.innerHTML += productCard;
+            });
+        })
+        .catch(error => console.error('Error fetching products:', error));
+});
+```
+
+### Linking to Backend API and Routes
+To ensure your marketing page works seamlessly with the backend, ensure your routes are correctly set up in your Express.js server.
+
+#### Example Backend Setup (app.js):
+```javascript
+;
+```
+
+### Enhancing the Marketing Page:
+- **Slideshow for New Products:** Incorporate Bootstrap’s carousel component to showcase newly added products.
+- **Interactive Elements:** Ensure that buttons like "Buy Now" or "Add Product" trigger the appropriate actions, such as adding to the cart or navigating to a payment page.
+  
+By following this approach, your marketing page will dynamically display products, interact with the backend to fetch data, and allow users to navigate between store features.
+
+To accomplish this, we'll break the task into multiple steps, covering both the front-end (`.ejs` templates) and back-end (`app.js`), and ensuring everything integrates with MongoDB/Mongoose securely.
+
+### 1. **EJS Views with Partial Templates**
+
+First, we'll structure the `.ejs` files. We'll use partials for common elements like the navigation bar, header, and footer. We'll also set up conditional rendering based on the user's role (admin, cashier, or user).
+
+#### File Structure:
+```plaintext
+/views
+    /partials
+        _navbar.ejs
+        _header.ejs
+        _footer.ejs
+    /admin
+        dashboard.ejs
+        addProduct.ejs
+        manageUsers.ejs
+    /cashier
+        dashboard.ejs
+        processOrder.ejs
+    /user
+        dashboard.ejs
+        purchaseHistory.ejs
+    index.ejs
+    login.ejs
+    register.ejs
+```
+
+#### Example: `_navbar.ejs`
+```ejs
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <% if (role === 'admin') { %>
+      <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+      <li><a href="/admin/addProduct">Add Product</a></li>
+      <li><a href="/admin/manageUsers">Manage Users</a></li>
+    <% } else if (role === 'cashier') { %>
+      <li><a href="/cashier/dashboard">Cashier Dashboard</a></li>
+      <li><a href="/cashier/processOrder">Process Order</a></li>
+    <% } else if (role === 'user') { %>
+      <li><a href="/user/dashboard">User Dashboard</a></li>
+      <li><a href="/user/purchaseHistory">Purchase History</a></li>
+    <% } %>
+    <li><a href="/logout">Logout</a></li>
+  </ul>
+</nav>
+```
+
+#### Example: `admin/dashboard.ejs`
+```ejs
+<%- include('../partials/_header') %>
+<%- include('../partials/_navbar', { role: 'admin' }) %>
+
+<h1>Admin Dashboard</h1>
+<p>Welcome, <%= user.name %>!</p>
+
+<%- include('../partials/_footer') %>
+```
+
+### 2. **Backend: `app.js` Setup**
+
+We'll set up the `app.js` file to handle routing, sessions, validation, and integration with MongoDB/Mongoose.
+
+#### `app.js` Example:
+```javascript
+const express = require('express');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
+const bodyParser = require('body-parser');
+const flash = require('connect-flash');
+const passport = require('passport');
+require('./config/passport')(passport); // Assuming passport is configured in a separate file
+
+const app = express();
+
+// Middleware setup
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.set('view engine', 'ejs');
+
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => {
+  console.error('MongoDB connection error:', err);
+  // Implement a retry or security protocol here
+});
+
+// Session setup
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI })
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+// Global variables
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+});
+
+// Routes
+app.use('/', require('./routes/index'));
+app.use('/admin', require('./routes/admin'));
+app.use('/cashier', require('./routes/cashier'));
+app.use('/user', require('./routes/user'));
+
+// Error handling
+app.use((req, res, next) => {
+  res.status(404).render('404', { title: '404: Page Not Found' });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+### 3. **Mongoose Models**
+
+#### `User.js` Example:
+```javascript
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['admin', 'cashier', 'user'], default: 'user' },
+  createdAt: { type: Date, default: Date.now }
+});
+
+// Password hashing middleware
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+module.exports = mongoose.model('User', UserSchema);
+```
+
+#### `Product.js` Example:
+```javascript
+const mongoose = require('mongoose');
+
+const ProductSchema = new mongoose.Schema({
+  vendorCategory: { type: String, required: true },
+  brandCategory: { type: String, required: true },
+  productSize: { type: String, required: true },
+  productName: { type: String, required: true },
+  productPrice: { type: Number, required: true },
+  image: { type: String },
+  createdAt: { type: Date, default: Date.now }
+});
+
+module.exports = mongoose.model('Product', ProductSchema);
+```
+
+### 4. **Routes**
+
+#### Example: `routes/admin.js`
+```javascript
+const express = require('express');
+const router = express.Router();
+const { ensureAuthenticated, ensureAdmin } = require('../middleware/auth');
+const Product = require('../models/Product');
+
+// Admin Dashboard
+router.get('/dashboard', ensureAuthenticated, ensureAdmin, (req, res) => {
+  res.render('admin/dashboard', { user: req.user });
+});
+
+// Add Product
+router.get('/addProduct', ensureAuthenticated, ensureAdmin, (req, res) => {
+  res.render('admin/addProduct');
+});
+
+router.post('/addProduct', ensureAuthenticated, ensureAdmin, async (req, res) => {
+  const { vendorCategory, brandCategory, productSize, productName, productPrice, image } = req.body;
+  
+  try {
+    const newProduct = new Product({ vendorCategory, brandCategory, productSize, productName, productPrice, image });
+    await newProduct.save();
+    req.flash('success_msg', 'Product added successfully');
+    res.redirect('/admin/dashboard');
+  } catch (error) {
+    req.flash('error_msg', 'Error adding product');
+    res.redirect('/admin/addProduct');
   }
 });
 
+// Other routes like managing users, updating, deleting products go here
+
+module.exports = router;
+```
+
+#### Middleware: `auth.js`
+```javascript
+module.exports = {
+  ensureAuthenticated: (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    req.flash('error_msg', 'Please log in to view that resource');
+    res.redirect('/login');
+  },
+  ensureAdmin: (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+      return next();
+    }
+    req.flash('error_msg', 'Admin privileges required');
+    res.redirect('/');
+  },
+  // Similar middleware for cashier, user roles
+};
+```
+
+### 5. **Security Considerations**
+
+- **MongoDB Connection Security**: Make sure you're using a secure connection string, and consider adding retry logic or connection pooling.
+- **Sessions**: Use secure cookies (`secure: true`) in production and consider implementing CSRF protection.
+- **Password Hashing**: Ensure passwords are hashed with bcrypt or similar.
+
+### 6. **Testing and Deployment**
+
+- **Testing**: Validate each route, form submission, and session handling. Also, ensure all EJS templates render correctly based on user roles.
+- **Deployment**: Ensure environment variables (`MONGODB_URI`, `SESSION_SECRET`, etc.) are properly configured on the production server.
+
+By following these steps, you can create a secure, role-based inventory system with dynamic content handling using EJS, Express, and MongoDB/Mongoos
+
+To set up your server, I'll guide you through including your assets and HTML files, handling security measures, and integrating two-factor authentication. Here's a step-by-step approach:
+
+### 1. **Setting Up `app.js`:**
+
+```javascript
+
+```
+
+### 2. **Public Folder Structure:**
+Make sure your `public` folder is structured as follows:
+```
+public/
+  assets/
+    css/
+    images/
+    js/
+  views/
+    partials/
+      header.ejs
+      footer.ejs
+      navbar.ejs
+    404.ejs
+    addproduct.ejs
+    addcashier.ejs
+    updatecashier.ejs
+    admin.ejs
+    cashier.ejs
+    user.ejs
+    marketing.ejs
+    index.ejs
+    payment.ejs
+    receipt.ejs
+    calculator.ejs
+    register.ejs
+    login.ejs
+    signup.ejs
+    widgets.ejs
+```
+
+### 3. **EJS Partial Views Setup:**
+To handle dynamic datasets and roles like user, cashier, and admin, create partial views:
+
+**`partials/header.ejs`:**
+```html
+<header>
+  <nav>
+    <!-- Dynamic Navbar based on role -->
+    <%- include(`partials/navbar-${role}`) %>
+  </nav>
+</header>
+```
+
+**`partials/navbar-admin.ejs`:**
+```html
+<ul>
+  <li><a href="/admin/dashboard">Dashboard</a></li>
+  <li><a href="/admin/products">Manage Products</a></li>
+  <!-- Add more links as needed -->
+</ul>
+```
+
+**`partials/navbar-cashier.ejs`:**
+```html
+<ul>
+  <li><a href="/cashier/sales">Sales</a></li>
+  <li><a href="/cashier/transactions">Transactions</a></li>
+  <!-- Add more links as needed -->
+</ul>
+```
+
+**`partials/navbar-user.ejs`:**
+```html
+<ul>
+  <li><a href="/user/profile">Profile</a></li>
+  <li><a href="/user/orders">Orders</a></li>
+  <!-- Add more links as needed -->
+</ul>
+```
+
+**`partials/footer.ejs`:**
+```html
+<footer>
+  <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+</footer>
+```
+
+### 4. **Security Enhancements:**
+- **Rate Limiting**: Protects against brute-force attacks by limiting repeated requests.
+- **CSRF Protection**: Helps prevent CSRF attacks.
+- **Session Security**: Secure cookies, `httpOnly`, and use `secure` in production with HTTPS.
+- **Two-Factor Authentication**: Implement using libraries like `speakeasy` or Google Authenticator.
+
+### 5. **Two-Factor Authentication (2FA):**
+Here’s a basic setup for 2FA:
+
+```javascript
+const speakeasy = require('speakeasy');
+const qrcode = require('qrcode');
+
+// Generate a 2FA secret key
+app.get('/generate-2fa', (req, res) => {
+  const secret = speakeasy.generateSecret({ length: 20 });
+  qrcode.toDataURL(secret.otpauth_url, (err, data_url) => {
+    res.render('2fa', { qrCode: data_url, secret: secret.base32 });
+  });
+});
+
+// Verify the token
+app.post('/verify-2fa', (req, res) => {
+  const verified = speakeasy.totp.verify({
+    secret: req.body.secret,
+    encoding: 'base32',
+    token: req.body.token
+  });
+  if (verified) {
+    res.send('2FA verified');
+  } else {
+    res.status(400).send('Invalid token');
+  }
+});
+```
+
+This setup gives you a robust foundation to serve your HTML files, secure your server, and handle dynamic datasets in your application.e.

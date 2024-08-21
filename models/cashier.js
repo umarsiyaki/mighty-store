@@ -26,3 +26,21 @@ Cashier.init({
 }, { sequelize, modelName: 'Cashier' });
 
 module.exports = Cashier;
+
+// models/cashierModel.js
+const mongoose = require('mongoose');
+
+const cashierSchema = new mongoose.Schema({
+  username: String,
+  email: String,
+  phone: String,
+  address: String,
+  password: String,
+  dateAdded: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Cashier = mongoose.model('Cashier', cashierSchema);
+module.exports = Cashier;

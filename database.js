@@ -81,3 +81,90 @@ const mongoose = require('mongoose');
 
 
    module.exports = { Product, BlogPost, User };
+   
+   
+const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
+
+// MongoDB Connection (for Location and Cashier using Mongoose)
+const connectMongoDB = async () => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/inventoryDB', { 
+            useNewUrlParser: true, 
+            useUnifiedTopology: true 
+        });
+        console.log('Connected to MongoDB');
+    } catch (error) {
+        console.error('MongoDB Connection Error:', error);
+    }
+};
+
+// Sequelize Connection (for Cashier using Sequelize)
+const sequelize = new Sequelize('inventoryDB', 'root', 'password', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
+
+const connectSequelize = async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('Connected to MySQL');
+    } catch (error) {
+        console.error('Sequelize Connection Error:', error);
+    }
+};
+
+// Initialize both connections
+connectMongoDB();
+connectSequelize();
+
+module.exports = { mongoose, sequelize };
+
+
+// database.js
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://localhost:27017/oladayo_ventures', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.error('MongoDB connection failed:', error.message);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+
+// mongoose.js
+const mongoose = require('mongoose');
+
+mongoose.set('strictQuery', false); // Set this to true if you want strict query validation
+
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false, // To handle deprecation warnings
+  useCreateIndex: true,    // To handle deprecation warnings
+};
+
+mongoose.connect('mongodb://localhost:27017/oladayo_ventures', options);
+
+const db = mongoose.connection;
+
+db.on('connected', () => {
+  console.log('Mongoose is connected to MongoDB');
+});
+
+db.on('error', (err) => {
+  console.error(`Mongoose connection error: ${err.message}`);
+});
+
+db.on('disconnected', () => {
+  console.log('Mongoose is disconnected');
+});
+
+module.exports = mongoose;
