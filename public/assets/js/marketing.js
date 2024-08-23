@@ -197,3 +197,25 @@ document.addEventListener('DOMContentLoaded', () => {
     alert(`${product.productName} has been added to your cart.`);
   }
 });
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('/api/products')
+    .then(response => response.json())
+    .then(data => {
+      const productList = document.getElementById('product-list');
+
+      data.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        productCard.innerHTML = `
+                               <img src="${product.image}" alt="${product.name}">
+                               <h3>${product.name}</h3>
+                               <p>${product.description}</p>
+                               <span>Price: $${product.price}</span>
+                               <a href="product.html?id=${product.id}">View Product</a>
+                           `;
+
+        productList.appendChild(productCard);
+      });
+    });
+});

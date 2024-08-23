@@ -118,3 +118,121 @@ function loadMessages() {
 
     messageCount.textContent = messages.length;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const messagesContainer = document.getElementById('messages-container');
+    const messageForm = document.getElementById('message-form');
+    const messageContent = document.getElementById('message-content');
+
+    // Fetch and display messages
+    const fetchMessages = async () => {
+        try {
+            const response = await fetch('/api/messages');
+            const messages = await response.json();
+            messagesContainer.innerHTML = '';
+            messages.forEach(message => {
+                const div = document.createElement('div');
+                div.textContent = message.content;
+                messagesContainer.appendChild(div);
+            });
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+    };
+
+    // Handle form submission
+    messageForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const content = messageContent.value;
+
+        try {
+            const response = await fetch('/api/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content }),
+            });
+
+            if (response.ok) {
+                messageContent.value = '';
+                fetchMessages(); // Refresh the messages list
+            } else {
+                console.error('Error adding message');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    // Initial fetch of messages when the page loads
+    fetchMessages();
+});
+const express = require('express');
+const path = require('path');
+const app = express();
+app.use(express.json());
+
+// Assuming you have a Message model (import it here)
+// const Message = require('./models/Message');
+
+// Serve the static files from the React app (build folder)
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// POST route to add new cashier
+app.post('/api/addCashier', (req, res) => {
+  const { username, email, phoneNumber, address, password } = req.body;
+  // Implement logic to add cashier to the database
+  res.send('Cashier added successfully');
+});
+
+// Example route to update product details
+app.put('/api/updateProduct/:productId', (req, res) => {
+  const productId = req.params.productId;
+  const { name, size, category, price, quantity } = req.body;
+  // Implement logic to update product in the database
+  res.send('Product updated successfully');
+});
+
+// Get all messages
+app.get('/api/messages', async (req, res) => {
+  try {
+    const messages = await Message.find();
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Post a new message
+app.post('/api/messages', async (req, res) => {
+  try {
+    const { content } = req.body;
+    const newMessage = new Message({ content, createdAt: new Date() });
+    await newMessage.save();
+    res.status(201).json(newMessage);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Delete a message
+app.delete('/api/messages/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Message.findByIdAndDelete(id);
+    res.status(204).end();
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// The "catchall" handler: for any request that doesn't match any route, send back React's index.html file.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

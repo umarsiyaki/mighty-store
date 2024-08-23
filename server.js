@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
@@ -32,6 +31,7 @@ const Notification = require('./models/Notification');
 const Message = require('./models/Message');
 
 // Initialize app
+const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 const cache = new NodeCache();
@@ -64,7 +64,7 @@ const cacheMiddleware = (req, res, next) => {
   const key = req.originalUrl;
   const cachedResponse = cache.get(key);
   if (cachedResponse) {
-    res.send(cachedResponse);
+    return res.send(cachedResponse);
   } else {
     res.originalSend = res.send;
     res.send = (body) => {
@@ -134,90 +134,64 @@ app.use((req, res, next) => {
 });
 
 // Start the server
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-
-require('dotenv').config();
-const connectDB = require('./src/config');
-
-// Connect to the database
-connectDB();
-
-const app = express();
-
-const express = require('express');
-const bodyParser = require('body-parser');
-const messageRoutes = require('./src/routes/messages');
-
-
-app.use(bodyParser.json());
-
-// Use the message routes
-app.use('/api/messages', messageRoutes);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-app.use(bodyParser.json());
-
-// Use the message routes
-app.use('/api/messages', messageRoutes);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
-const app = require('./app');
-const config = require('./config/config');
-
-const PORT = config.server.port || 5000;
-
-app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
 
-const express = require('express');
-const app = express();
-const mongoose = require('mongoose');
-const { sequelize } = require('./config/database');
-const bodyParser = require('body-parser');
 
-// Models
-const Cashier = require('./models/cashier');
-const Location = require('./models/location');
-
-// Middleware
-app.use(bodyParser.json());
-
-// Routes
-const cashierRoutes = require('./routes/cashierRoutes');  // Define routes in `routes/cashierRoutes.js`
-app.use('/api/cashier', cashierRoutes);
-
-// Static Files (e.g., frontend files)
-app.use(express.static('public'));
-
-// Error Handling Middleware
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
-
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
-// server.js
-const app = require('./app');
 const connectDB = require('./database');
+const messageRoutes = require('./routes/message');
 
-// Connect to the database
+const app = express();
+
+// Connect to MongoDB
 connectDB();
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+// Routes
+app.use('/api/messages', messageRoutes);
+
+// Serve static files from the public directory
+app.use(express.static('public'));
+
+// Catch-all handler for SPA routing
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'message.html'));
+});
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
+});
+const connectDB = require('./database');
+const messageRoutes = require('./routes/message');
+
+const app = express();
+
+// Connect to MongoDB
+connectDB();
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Routes
+app.use('/api/messages', messageRoutes);
+
+// Serve static files from the public directory
+app.use(express.static('public'));
+
+// Catch-all handler for SPA routing
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'message.html'));
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

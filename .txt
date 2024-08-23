@@ -1,5 +1,381 @@
 
+
+
+To set up a complete messaging system with interaction across different files, including the `Message` model, database configuration, routes, and integration with the frontend, here's a breakdown of what each file will contain.
+
+### 1. **`../database.js`** - Database Configuration
+This file will handle the connection to MongoDB using Mongoose.
+
+```javascript
+```
+
+### 2. **`../mongodb/mongoose.js`** - Mongoose Configuration
+This file is typically for additional Mongoose configurations or plugins, but if you only have basic settings, you can directly configure Mongoose in `../database.js`. For example:
+
+```javascript
+```
+
+### 3. **`../models/Message.js`** - Message Model
+This defines the schema for your messages.
+
+```javascript
+```
+
+### 4. **`../routes/message.js`** - Message Routes
+This file defines the API routes for interacting with messages.
+
+```javascript
+```
+
+### 5. **`../server.js`** - Server Setup
+This file will set up the Express server and use the routes defined earlier.
+
+```javascript
+```
+
+### 6. **`../public/message.html`** - Message Frontend
+This is a simple HTML page for interacting with the messages. It will load the JavaScript from `../public/assets/js/message.js`.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+</head>
+<body>
+    <h1>Messages</h1>
+    <div id="messages-container"></div>
+    <form id="message-form">
+        <input type="text" id="message-content" placeholder="Enter your message" required>
+        <button type="submit">Send</button>
+    </form>
+
+    <script src="assets/js/message.js"></script>
+</body>
+</html>
+```
+
+### 7. **`../public/assets/js/message.js`** - Frontend Logic
+This file will handle the frontend logic to interact with the message API.
+
+```javascript
+```
+
+### 8. **`app.js`** - Main Application Entry (if required)
+If `app.js` is necessary, it typically would serve as an entry point for the server, possibly running `server.js` or coordinating other parts of the application. However, if `server.js` is already doing that, `app.js` might be redundant.
+
+```javascript
+// app.js (if you decide to use it)
+const server = require('./server');
+
+// Any additional configuration or server start can happen here if necessary.
+```
+
+### Final Directory Structure:
+```
+project-root/
+│
+├── database.js
+├── mongodb/
+│   └── mongoose.js
+├── models/
+│   └── Message.js
+├── routes/
+│   └── message.js
+├── public/
+│   ├── message.html
+│   └── assets/
+│       └── js/
+│           └── message.js
+├── server.js
+└── app.js
+```
+
+### Explanation:
+- **Database Configuration:** `../database.js` connects to MongoDB.
+- **Mongoose Configuration:** `../mongodb/mongoose.js` sets additional settings for Mongoose.
+- **Message Model:** `../models/Message.js` defines the data structure for messages.
+- **Routes:** `../routes/message.js` handles CRUD operations for messages.
+- **Server:** `../server.js` starts the Express server and sets up middleware and routes.
+- **Frontend:** `../public/message.html` provides a simple UI for interacting with the message system.
+- **Frontend Logic:** `../public/assets/js/message.js` manages frontend interactions.
+
+This setup should give you a fully functional messaging system with a clear separation of concerns between the backend and frontend.To implement the cashier addition feature with routes, controllers, and DOM updates, here’s a step-by-step guide to adding the necessary files and routes to your project.
+
+### 1. Create `addcashier.js` Controller
+
+In your `../controller/addcashier.js`, define the logic for handling cashier creation:
+
+```js
+```
        
+   ```
+
+### 2. Create `addcashier.js` Routes
+
+Create the route file `addcashier.js` inside the `../../../routes/` directory:
+
+```js
+// ../../../routes/addcashier.js
+const express = require('express');
+const router = express.Router();
+const { addCashier } = require('../controller/addcashier');
+
+// POST route to add a cashier
+router.post('/add', addCashier);
+
+module.exports = router;
+```
+
+### 3. Integrate Route in `app.js`
+
+Update your `app.js` to include the new route and serve the `addcashier.html` DOM:
+
+```js
+
+```
+
+### 4. `addcashier.html`
+
+Ensure your `addcashier.html` form has the appropriate IDs and structure:
+
+```html
+```
+
+### 5. Email Service (`emailService.js`)
+
+Ensure your email service is set up correctly for sending notifications:
+
+```js
+
+```
+
+### Summary of Setup
+- **Controller** (`../controller/addcashier.js`): Handles adding cashier and sending email notifications.
+- **Routes** (`../../../routes/addcashier.js`): Defines API routes for cashier creation.
+- **App Integration** (`app.js`): Adds the route `/addcashier` and serves the HTML file.
+- **HTML** (`addcashier.html`): Simple form for adding cashier details, linked to JavaScript.
+- **Email Service**: Sends email notifications when a cashier is added.
+
+This setup should integrate smoothly with your `addcashier.html` page and provide cashier-adding functionality, with appropriate notifications. Let me know if you need further adjustments!
+
+To set up your `cashier.html` page to automatically fetch data using routes, controllers, models, and services, and integrate with your `app.js`, `index.js`, `server.js`, and MongoDB/Mongoose, you'll need to follow a structured approach.
+
+Here is an outline of what we'll do:
+
+### 1. **Set Up Mongoose Model**
+You need a `Cashier` model that will define the schema for your MongoDB.
+
+```js
+```
+
+### 2. **Create the Service Layer**
+This will handle business logic, like creating a cashier or retrieving cashier data.
+
+```js
+```
+
+### 3. **Create the Controller Layer**
+This will handle requests and responses, and will interact with the service layer.
+
+```js
+```
+
+### 4. **Set Up the Routes**
+Now you create the necessary routes to fetch and add cashiers.
+
+```js
+
+```
+
+### 2. **Update `mongoose` Configuration**
+
+If you have a separate `mongoose.js` file that handles configurations, you can ensure it uses the latest Mongoose configurations and exports the instance.
+
+```js
+```
+
+### 3. **Update `server.js`**
+
+The `server.js` file should now integrate the `database.js` connection logic and start the Express server.
+
+```js
+```
+
+### 4. **Refactor Existing Code to Use New Setup**
+
+If your project already had some configurations, ensure that:
+
+- The `mongoose.connect` logic is centralized in `database.js` or `mongoose.js`.
+- Your `app.js` file handles only middleware and routing logic.
+- `server.js` is focused on bootstrapping the application by connecting to the database and starting the server.
+
+### 5. **Ensure All Dependencies Are Installed**
+
+Ensure your project has all necessary dependencies installed. Run:
+
+```bash
+
+```
+
+### 6. **Testing the Updated Setup**
+
+- **Start MongoDB**: Ensure your MongoDB server is running by executing `mongod` in your terminal.
+- **Run the Application**: Start your server by running `node server.js` or `nodemon server.js` if you are using Nodemon.
+
+### 7. **Verify Database Connection and Routes**
+
+You can verify the connection and route setup by checking:
+
+- **Database Connection**: Confirm the connection message (`MongoDB connected successfully`) in the console.
+- **API Routes**: Use tools like Postman or CURL to test the `/cashiers/add` and `/cashiers/all` endpoints.
+
+### 8. **Handle Errors Gracefully**
+
+Make sure to handle any errors gracefully. The connection logic in `database.js` is wrapped in a `try-catch` block to handle and log any errors during the connection.
+
+With these updates, your database connection, Mongoose configuration, and server setup should now be well-integrated into your project. Your application will be ready to interact with MongoDB and serve your routes effectively.
+
+Here's how you can integrate and update your project based on the provided files for `cashier.js`, `addcashier.js`, `models/cashier.js`, and `location.js`. I'll provide instructions and updates for your database, route files, and any additional needed configurations.
+
+### 1. **`database.js` Update** (Integration with Mongoose and Sequelize)
+Make sure your `database.js` is set up for both MongoDB and Sequelize to support both `Cashier` and `Location` models.
+
+```js
+```
+
+### 2. **`server.js` Update** (Route and Controller Integration)
+
+Ensure your `server.js` includes the routes for cashier and product updates:
+
+```js
+```
+
+### 3. **`routes/cashierRoutes.js`**
+Define the routes for handling cashier addition and updating in your backend:
+
+```js
+```
+
+### 4. **Frontend JavaScript (`cashier.js` and `addcashier.js`)**
+These files already provide frontend logic for product updates and adding cashiers. Ensure that you have these JS files loaded into the correct pages on your frontend (e.g., through `<script>` tags or as modules in your frontend structure).
+
+For example, in `cashier.html`:
+
+```html
+<script src="/js/cashier.js"></script>
+```
+
+### 5. **Mongoose and Sequelize Models**
+- Ensure that you are using both Mongoose and Sequelize effectively, as shown in the `cashier.js` and `location.js` files. 
+- For Mongoose, ensure you're using the correct schemas and connecting properly.
+
+### Next Steps
+Now that your backend and frontend logic is set up, test the following:
+- Add a cashier through your frontend form, which should trigger the `addCashier` route in the backend.
+- Check that the data is saved correctly in your MongoDB or MySQL databases.
+- Implement error handling and success messages for the forms.
+- Test product updates, making sure the details are sent via the `fetch` requests and saved in the backend.
+
+Would you like to proceed with a more specific feature or have any other aspects you want to refine further
+
+
+To achieve your goal of creating a dynamic marketing page using the provided HTML files, here are the steps and instructions:
+
+### 1. **Understanding the Goal:**
+   - You are trying to integrate the dynamic display of product data on a marketing page.
+   - You want to ensure that products can be fetched from the server and displayed properly on the HTML front end.
+
+### 2. **Setting up the HTML Files:**
+   Let's assume you have the following structure based on what you've provided:
+   - **`marketing.html`**: This is your main page for displaying the product.
+   - **`product.html`**: Used for individual product details.
+   - **`calculator.html`**: For product quantity management.
+   
+### 3. **Backend - Express.js Setup:**
+   We'll set up the route and logic to fetch product data dynamically.
+
+   **Step 1: Create a route to fetch the products**
+   - In your `app.js` file, ensure you include a route that fetches product data.
+
+   Example:
+   ```js
+   const express = require('express');
+   const app = express();
+   const path = require('path');
+   
+   // Serve static files like CSS, JS, Images
+   app.use(express.static(path.join(__dirname, 'public')));
+   
+   // Route to fetch products dynamically
+   app.get('/api/products', (req, res) => {
+       // Sample product data, replace with your database query
+       const products = [
+           { id: 1, name: 'Coca-Cola', price: 50, description: 'Coca-Cola drink.', image: 'coca_cola.jpg' },
+           { id: 2, name: 'Pepsi', price: 45, description: 'Pepsi drink.', image: 'pepsi.jpg' },
+           // Add more products as needed
+       ];
+       res.json(products);
+   });
+
+   // Serve the marketing page
+   app.get('/marketing', (req, res) => {
+       res.sendFile(path.join(__dirname, 'views/marketing.html'));
+   });
+
+   app.listen(3000, () => console.log('Server running on port 3000'));
+   ```
+
+   - This will allow your frontend to dynamically fetch product data by accessing `/api/products`.
+
+### 4. **Frontend - Displaying the Products Dynamically:**
+   Now, in your `marketing.html`, you'll want to fetch this data from the server and populate your product cards dynamically.
+
+   **Step 2: Fetch products using JavaScript**
+
+   In your `marketing.html` file, include a script to fetch the products and display them on the page.
+
+   Example:
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Marketing Page</title>
+       <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+       <div id="product-list" class="product-grid"></div>
+
+       <script>
+           document.addEventListener('DOMContentLoaded', function() {
+               fetch('/api/products')
+                   .then(response => response.json())
+                   .then(data => {
+                       const productList = document.getElementById('product-list');
+                       
+                       data.forEach(product => {
+                           const productCard = document.createElement('div');
+                           productCard.classList.add('product-card');
+                           
+                           productCard.innerHTML = `
+                               <img src="${product.image}" alt="${product.name}">
+                               <h3>${product.name}</h3>
+                               <p>${product.description}</p>
+                               <span>Price: $${product.price}</span>
+                               <a href="product.html?id=${product.id}">View Product</a>
+                           `;
+                           
+                           productList.appendChild(productCard);
+                       });
+                   });
+           });
+       </script>
+   </body>
+   </html>
    ```
 
    - Here, we're using the `fetch` API to get the product data from the backend. Once the data is received, we loop through each product and create HTML elements to display them.
@@ -9,7 +385,37 @@
 
    Example:
    ```css
-   
+   .product-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+       gap: 20px;
+       padding: 20px;
+   }
+
+   .product-card {
+       border: 1px solid #ccc;
+       padding: 15px;
+       text-align: center;
+       background-color: #fff;
+   }
+
+   .product-card img {
+       max-width: 100%;
+       height: auto;
+   }
+
+   .product-card h3 {
+       margin: 10px 0;
+   }
+
+   .product-card a {
+       display: inline-block;
+       margin-top: 10px;
+       padding: 10px 20px;
+       background-color: #007bff;
+       color: #fff;
+       text-decoration: none;
+   }
    ```
 
    - This will make your marketing page display the products in a responsive grid.
@@ -19,6 +425,37 @@
 
    For example, in `product.html`:
    ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Product Details</title>
+       <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+       <div id="product-details"></div>
+
+       <script>
+           document.addEventListener('DOMContentLoaded', function() {
+               const params = new URLSearchParams(window.location.search);
+               const productId = params.get('id');
+               
+               fetch(`/api/products/${productId}`)
+                   .then(response => response.json())
+                   .then(product => {
+                       const productDetails = document.getElementById('product-details');
+                       productDetails.innerHTML = `
+                           <h2>${product.name}</h2>
+                           <img src="${product.image}" alt="${product.name}">
+                           <p>${product.description}</p>
+                           <span>Price: $${product.price}</span>
+                       `;
+                   });
+           });
+       </script>
+   </body>
+   </html>
    ```
 
    - Ensure your backend has an API endpoint like `/api/products/:id` to fetch individual product details.
@@ -58,6 +495,53 @@ Make sure to have these routes in your `controller/notification.js` and `control
 Add the following JavaScript to fetch the data and display it dynamically in the dropdowns.
 
 ```html
+<script>
+// Fetch messages when the dropdown is clicked
+document.querySelector('.message-dropdown').addEventListener('click', function () {
+    fetch('/messages/fetch')
+        .then(response => response.json())
+        .then(data => {
+            const messageDropdown = document.querySelector('.message-dropdown .dropdown-menu');
+            messageDropdown.innerHTML = ''; // Clear existing messages
+
+            data.forEach(msg => {
+                messageDropdown.innerHTML += `
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">${msg.title}</h6>
+                        <small>${msg.time}</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                `;
+            });
+
+            messageDropdown.innerHTML += `<a href="#" class="dropdown-item text-center">See all messages</a>`;
+        })
+        .catch(error => console.error('Error fetching messages:', error));
+});
+
+// Fetch notifications when the dropdown is clicked
+document.querySelector('.notification-dropdown').addEventListener('click', function () {
+    fetch('/notifications/fetch')
+        .then(response => response.json())
+        .then(data => {
+            const notificationDropdown = document.querySelector('.notification-dropdown .dropdown-menu');
+            notificationDropdown.innerHTML = ''; // Clear existing notifications
+
+            data.forEach(notif => {
+                notificationDropdown.innerHTML += `
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">${notif.title}</h6>
+                        <small>${notif.time}</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                `;
+            });
+
+            notificationDropdown.innerHTML += `<a href="#" class="dropdown-item text-center">See all notifications</a>`;
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+});
+</script>
 ```
 
 ### Integrating into `marketing.html`
@@ -532,359 +1016,3 @@ app.post('/verify-2fa', (req, res) => {
 ```
 
 This setup gives you a robust foundation to serve your HTML files, secure your server, and handle dynamic datasets in your application.e.
-
-
-
-
-
-
-
-
-To ensure that all routes and functionalities are included and connected to your database, we'll structure the application by creating routes, controllers, and models for handling each specific functionality.
-
-### **1. Models (`models.js`):**
-
-Ensure that the database schemas are well-defined with the correct fields:
-
-```javascript
-const mongoose = require('mongoose');
-
-// Cashier Schema
-const cashierSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String, required: true },
-    address: { type: String, required: true },
-    password: { type: String, required: true },
-}, { timestamps: true });
-
-const Cashier = mongoose.model('Cashier', cashierSchema);
-
-// Admin Schema
-const adminSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String, required: true },
-    address: { type: String, required: true },
-    password: { type: String, required: true },
-}, { timestamps: true });
-
-const Admin = mongoose.model('Admin', adminSchema);
-
-// Product Schema
-const productSchema = new mongoose.Schema({
-    productName: { type: String, required: true },
-    category: { type: String, required: true },
-    price: { type: Number, required: true },
-    quantity: { type: Number, required: true },
-    description: { type: String },
-    rating: { type: Number, default: 0 },
-}, { timestamps: true });
-
-const Product = mongoose.model('Product', productSchema);
-
-// Market Schema
-const marketSchema = new mongoose.Schema({
-    productname: { type: String, required: true },
-    productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-    productCategory: { type: String, required: true },
-    productPrice: { type: Number, required: true },
-    productTrackingId: { type: String, required: true },
-    store: { type: String, required: true },
-    quantity: { type: Number, required: true },
-}, { timestamps: true });
-
-const Market = mongoose.model('Market', marketSchema);
-
-// Blog Schema
-const blogSchema = new mongoose.Schema({
-    authorName: { type: String, required: true },
-    authorImage: { type: String, required: true },
-    comment: { type: String, required: true },
-    address: { type: String, required: true },
-    // Add other blog fields as necessary
-}, { timestamps: true });
-
-const Blog = mongoose.model('Blog', blogSchema);
-
-// User Schema
-const userSchema = new mongoose.Schema({
-    firstName: { type: String, required: true },
-    middleName: { type: String },
-    lastName: { type: String, required: true },
-    username: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String, required: true },
-    address: { type: String, required: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ['admin', 'moderator', 'cashier', 'user'], required: true },
-    profilePicture: { type: String },
-}, { timestamps: true });
-
-const User = mongoose.model('User', userSchema);
-
-// Other schemas like orders, receipts, etc. will follow a similar pattern.
-
-module.exports = {
-    Cashier,
-    Admin,
-    Product,
-    Market,
-    Blog,
-    User
-    // Add other models as necessary
-};
-```
-
-### **2. Controllers (`controllers`):**
-
-Create controllers for handling specific logic, e.g., signup, login, product management, etc.
-
-**User Controller (`controllers/userController.js`):**
-
-```javascript
-const User = require('../models').User;
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-
-// Signup User
-exports.signup = async (req, res) => {
-    const { firstName, middleName, lastName, username, email, phone, address, password, role } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({
-        firstName,
-        middleName,
-        lastName,
-        username,
-        email,
-        phone,
-        address,
-        password: hashedPassword,
-        role
-    });
-
-    user.save()
-        .then(() => res.redirect('/login'))
-        .catch(err => res.status(400).render('signup', { error: 'Failed to create account', err }));
-};
-
-// Login User
-exports.login = (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
-        failureFlash: true
-    })(req, res, next);
-};
-
-// Other user functionalities
-```
-
-**Product Controller (`controllers/productController.js`):**
-
-```javascript
-const Product = require('../models').Product;
-
-// Add Product
-exports.addProduct = async (req, res) => {
-    const { productName, category, price, quantity, description } = req.body;
-
-    const product = new Product({
-        productName,
-        category,
-        price,
-        quantity,
-        description
-    });
-
-    product.save()
-        .then(() => res.redirect('/admin/products'))
-        .catch(err => res.status(400).render('addproduct', { error: 'Failed to add product', err }));
-};
-
-// Edit Product
-exports.editProduct = async (req, res) => {
-    const { id } = req.params;
-    const updatedData = req.body;
-
-    Product.findByIdAndUpdate(id, updatedData, { new: true })
-        .then(() => res.redirect('/admin/products'))
-        .catch(err => res.status(400).render('editproduct', { error: 'Failed to update product', err }));
-};
-
-// Delete Product
-exports.deleteProduct = async (req, res) => {
-    const { id } = req.params;
-
-    Product.findByIdAndDelete(id)
-        .then(() => res.redirect('/admin/products'))
-        .catch(err => res.status(400).render('products', { error: 'Failed to delete product', err }));
-};
-
-// Other product functionalities
-```
-
-### **3. Routes (`routes`):**
-
-Organize your routes based on functionality, linking them to the appropriate controller actions.
-
-**User Routes (`routes/user.js`):**
-
-```javascript
-const express = require('express');
-const router = express.Router();
-const userController = require('../controllers/userController');
-
-// Signup Route
-router.post('/signup', userController.signup);
-
-// Login Route
-router.post('/login', userController.login);
-
-// Other user-related routes
-
-module.exports = router;
-```
-
-**Admin Routes (`routes/admin.js`):**
-
-```javascript
-const express = require('express');
-const router = express.Router();
-const productController = require('../controllers/productController');
-
-// Add Product Route
-router.post('/add-product', productController.addProduct);
-
-// Edit Product Route
-router.post('/edit-product/:id', productController.editProduct);
-
-// Delete Product Route
-router.post('/delete-product/:id', productController.deleteProduct);
-
-// Other admin-related routes
-
-module.exports = router;
-```
-
-### **4. Integrate into `app.js`:**
-
-Ensure all routes are included in your `app.js`:
-
-```javascript
-const express = require('express');
-const path = require('path');
-const mongoose = require('mongoose');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
-const passport = require('passport');
-const flash = require('connect-flash');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-
-const app = express();
-
-// Security and rate-limiting
-app.use(helmet());
-app.use(rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
-}));
-
-// Database connection
-mongoose.connect('mongodb://localhost:27017/your-db-name', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
-
-// Session setup
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/your-db-name',
-        collectionName: 'sessions',
-    }),
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // 1 day
-        secure: true, // Set to true if using https
-        httpOnly: true, // Prevents client-side JS from reading the cookie
-    },
-}));
-
-// Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Flash messages
-app.use(flash());
-
-// Set view engine
-app.set('view engine', 'ejs');
-
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Body parsers
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Routes
-app.use('/', require('./routes/index'));
-app.use('/user', require('./routes/user'));
-app.use('/admin', require('./routes/admin'));
-// Add additional routes as needed
-
-// Error handling
-app.use((req, res) => {
-    res.status(404).render('404', { title: '404 - Not Found' });
-});
-
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
-});
-
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running
-
- on port ${PORT}`));
-```
-
-### **5. Security Enhancements:**
-
-Ensure the server is secure against various threats:
-
-- **DDoS:** Use `express-rate-limit` to limit request rates.
-- **Brute Force:** Implement strong password policies and rate-limit logins.
-- **SQL Injection:** Use ORM/ODM (like Mongoose) that properly handles inputs.
-- **Phishing:** Educate users and implement strong authentication practices like 2FA.
-
-For two-factor authentication (2FA), you can integrate packages like `passport-2fa-totp` for Time-based One-Time Passwords (TOTP).
-
-### **6. Dynamic Product Display on Landing Page:**
-
-Ensure your landing page fetches and displays products dynamically from your database using a controller action that passes the data to the view.
-
-**Example Controller for Landing Page:**
-
-```javascript
-const Product = require('../models').Product;
-
-exports.landingPage = async (req, res) => {
-    try {
-        const products = await Product.find().sort({ createdAt: -1 }).limit(5); // Fetch 5 latest products
-        res.render('landingPage', { products });
-    } catch (err) {
-        res.status(500).send('Failed to load products');
-    }
-};
-```
-
-Ensure this method is connected to the appropriate route and rendered in the `landingPage.ejs`.
-
-This setup should cover the critical aspects of your application and integrate all the functionalities into a well-structured codebase. Let me know if you need any further assistance!

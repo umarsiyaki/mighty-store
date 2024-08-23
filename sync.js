@@ -11,31 +11,22 @@ const initialData = require('./config/initialData');
 
     // Seed initial data
     await seedInitialData();
-
     console.log('Initial data seeded');
-    process.exit(0);
   } catch (error) {
     console.error('Error synchronizing database:', error);
-    process.exit(1);
   }
 })();
 
 async function seedInitialData() {
   try {
-    // Seed users
-    for (const userData of initialData.users) {
-      await User.create(userData);
-    }
+    // Seed users in parallel
+    await Promise.all(initialData.users.map(userData => User.create(userData)));
 
-    // Seed products
-    for (const productData of initialData.products) {
-      await Product.create(productData);
-    }
+    // Seed products in parallel
+    await Promise.all(initialData.products.map(productData => Product.create(productData)));
 
-    // Seed orders
-    for (const orderData of initialData.orders) {
-      await Order.create(orderData);
-    }
+    // Seed orders in parallel
+    await Promise.all(initialData.orders.map(orderData => Order.create(orderData)));
 
     console.log('Seeding initial data completed');
   } catch (error) {
@@ -44,7 +35,6 @@ async function seedInitialData() {
   }
 }
 
-// Simulate some server requests for demonstration
 async function performServerRequests() {
   try {
     // Fetch all users
@@ -69,16 +59,23 @@ async function performServerRequests() {
     });
     console.log('New product created:', newProduct);
 
-    // Update a product
-    const updatedProduct = await Product.update(
+    // Update the newly created product
+    await Product.update(
       { price: 25.0 },
       { where: { id: newProduct.id } }
     );
+
+    // Fetch the updated product to confirm the changes
+    const updatedProduct = await Product.findByPk(newProduct.id);
     console.log('Product updated:', updatedProduct);
 
-    // Delete a product
+    // Delete the product
     const deletedProduct = await Product.destroy({ where: { id: newProduct.id } });
-    console.log('Product deleted:', deletedProduct);
+    if (deletedProduct) {
+      console.log('Product deleted:', newProduct.id);
+    } else {
+      console.log('Product deletion failed:', newProduct.id);
+    }
 
     console.log('Server requests performed successfully');
   } catch (error) {
@@ -91,9 +88,7 @@ async function performServerRequests() {
 (async () => {
   try {
     await performServerRequests();
-    process.exit(0);
   } catch (error) {
     console.error('Error in server request execution:', error);
-    process.exit(1);
   }
 })();

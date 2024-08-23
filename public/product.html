@@ -15,6 +15,7 @@
             const params = new URLSearchParams(window.location.search);
             const productId = params.get('id');
             
+
             fetch(`/api/products/${productId}`)
                 .then(response => response.json())
                 .then(product => {
@@ -29,4 +30,35 @@
         });
     </script>
 </body>
-</html>
+</html>   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Product Details</title>
+       <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+       <div id="product-details"></div>
+
+       <script>
+           document.addEventListener('DOMContentLoaded', function() {
+               const params = new URLSearchParams(window.location.search);
+               const productId = params.get('id');
+               
+
+               fetch(`/api/products/${productId}`)
+                   .then(response => response.json())
+                   .then(product => {
+                       const productDetails = document.getElementById('product-details');
+                       productDetails.innerHTML = `
+                           <h2>${product.name}</h2>
+                           <img src="${product.image}" alt="${product.name}">
+                           <p>${product.description}</p>
+                           <span>Price: $${product.price}</span>
+                       `;
+                   });
+           });
+       </script>
+   </body>
+   </html>
