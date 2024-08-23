@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const countMultiplyBtn = document.getElementById('count-multiply-btn');
     const updateProductBtn = document.getElementById('update-product-btn');
     const totalProducts = document.getElementById('total-products');
+    const messageCount = document.getElementById('messageDropdown');
     const updatedDetails = document.getElementById('updated-details');
     const spinner = document.getElementById("spinner");
     const sidebarToggle = document.querySelector(".sidebar-toggler");

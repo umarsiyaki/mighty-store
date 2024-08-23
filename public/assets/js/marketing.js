@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cardText2 = document.createElement('p');
     cardText2.className = 'card-text';
-    cardText2.innerHTML = `<strong>Price: $${product.price}</strong>`;
+    cardText2.innerHTML = `<strong>Price: N${product.price}</strong>`;
 
     const addButton = document.createElement('button');
     addButton.className = 'btn btn-primary';
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <p>Vendor: ${product.vendorCategory}</p>
       <p>Brand: ${product.brandCategory}</p>
       <p>Size: ${product.productSize}</p>
-      <p>Price: $${product.productPrice}</p>
+      <p>Price: N${product.productPrice}</p>
     `;
     productList.appendChild(productItem);
   });
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const price = document.createElement('p');
     price.className = 'card-text';
-    price.innerHTML = `<strong>Price: $${product.productPrice}</strong>`;
+    price.innerHTML = `<strong>Price: N${product.productPrice}</strong>`;
 
     const addToCartButton = document.createElement('a');
     addToCartButton.href = '#';

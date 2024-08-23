@@ -1,4 +1,19 @@
-   
+ // messages.js
+const express = require('express');
+const router = express.Router();
+
+// Mock message data
+const messages = [
+    { title: "New order received", time: "10 minutes ago" },
+    { title: "Product restocked", time: "20 minutes ago" }
+];
+
+// Route to fetch messages
+router.get('/fetch', (req, res) => {
+    res.json(messages);
+});
+
+module.exports = router;  
 // Get all messages
 exports.getMessages = async (req, res) => {
     try {

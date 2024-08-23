@@ -5,42 +5,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
-</head>
+  <link rel="stylesheet" href="assets/css/styles.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css"></head>
 
 <body>
   <body>
-    <form>
+    <form action="../controllers/productController.js" class="form-control">
       <label>Category:</label>
       <select>
         <!-- categories will be fetched from admin cashier and marketing.html -->
       </select>
     
-      <label>Size:</label>
+      <label>Size:</label><br>
       <select>
         <!-- sizes will be fetched from admin cashier and marketing.html -->
       </select>
     
-      <label>Quantities:</label>
-      <input type="number" id="quantity" value="1" />
+ 
     
-      <label>Price:</label>
-      <input type="number" id="price" />
-    
-      <label>Name:</label>
-      <input type="text" id="product-name" />
-    
-      <button type="button" onclick="calculateTotal()">Calculate Total</button>
-    
-      <label>Total Amount:</label>
-      <span id="total-amount"></span>
-    
-      <label>Number per Product:</label>
-      <span id="number-per-product"></span>
-      <button type="button" onclick="updateProduct('subtractFromCart')">Subtract from Cart</button>
-      <button type="button" onclick="updateProduct('multiplyCart')">Multiply Cart</button>
-      <button type="button" onclick="updateProduct('divideCart')">Divide Cart</button>
+
+      <button type="button" id="subtract onclick="updateProduct('subtractFromCart')">Subtract from Cart</button>
+      <button type="button" id="multiply" onclick="updateProduct('multiplyCart')">Multiply Cart</button>
+      <button type="button" id="add" onclick="updateProduct('count-add-btn')">add number</button>
+      <button type="button" id="divide" onclick="updateProduct('divideCart')">Divide Cart</button>
       <button type="submit">Submit</button>
-    </form>
     
     <script>
       function calculateTotal() {
@@ -53,13 +42,13 @@
         document.getElementById("number-per-product").innerText = `Number per Product: ${numberPerProduct}`;
       }
     
-      function updateProduct(action) {
-        const productId = 'some-product-id'; // Replace with actual product ID
-        localStorage.setItem('action', action);
-        window.location.href = `updateproduct.html?id=${productId}`;
-      }
+       function updateProduct(action) {
+         const productId = 'some-product-id'; // Replace with actual product ID
+         localStorage.setItem('action', action);
+         window.location.href = `updateproduct.html?id=${productId}`;
+     }
     </script>
-<script src="calculator.js"></script>
+<script src="assets/js/calculator.js"></script>
   <script>
     function updateProduct(action) {
       const productId = 'some-product-id'; // Replace with actual product ID
@@ -67,7 +56,6 @@
       window.location.href = `updateproduct.html?id=${productId}`;
     }
   </script>
-  <button type="submit">Submit</button>
 </form>
 
 <script>

@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="product-info">
           <h5>${product.name}</h5>
           <p>Size: ${product.size}</p>
-          <p>Price: $${product.price}</p>
+          <p>Price: ${product.price}</p>
           <p>Rating: ${'★'.repeat(product.rating)}</p>
         </div>
       `;

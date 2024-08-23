@@ -1,0 +1,5 @@
+{
+    "terminal.integrated.cursorBlinking": true,
+    "search.followSymlinks": false,
+    "markdown.updateLinksOnFileMove.enabled": "prompt"
+}
