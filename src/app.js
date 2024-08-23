@@ -232,3 +232,23 @@ mongoose.connect('mongodb://localhost:27017/your-db-name', {
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+   // Serve static files like CSS, JS, Images
+   app.use(express.static(path.join(__dirname, 'public')));
+
+   // Route to fetch products dynamically
+   app.get('/api/products', (req, res) => {
+     // Sample product data, replace with your database query
+     const products = [
+       { id: 1, name: 'Coca-Cola', price: 50, description: 'Coca-Cola drink.', image: 'coca_cola.jpg' },
+       { id: 2, name: 'Pepsi', price: 45, description: 'Pepsi drink.', image: 'pepsi.jpg' },
+           // Add more products as needed
+       ];
+     res.json(products);
+   });
+
+   // Serve the marketing page
+   app.get('/marketing', (req, res) => {
+     res.sendFile(path.join(__dirname, 'views/marketing.html'));
+   });
+
+   app.listen(3000, () => console.log('Server running on port 3000'));

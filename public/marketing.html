@@ -1,78 +1,124 @@
-this is marketing.html
+  this is marketing.html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market - Oladayo Enterprises</title>
-    <link rel="stylesheet" href="lib/owlcarousel/assets/owl.carousel.css">
-    <link rel="stylesheet" href="lib/owlcarousel/assets/owl.theme.default.css">
-    <link rel="stylesheet" href="lib/owlcarousel/assets/owl.theme.green.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <title>Market - Oladayo Enterprises</title><meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="img/favicon.ico" rel="icon">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-  <%= %>
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top px-4 py-0">
+  <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50">
+    <div class="spinner-grow text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div class="container-fluid d-flex p-0">
+    <nav class="sidebar pe-4 pb-3">
+      <a href="index.html" class="navbar-brand mx-4 mb-3">
+        <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>Oladayo Ventures</h3>
+      </a>
+      <div class="d-flex align-items-center ms-4 mb-4">
+        <div class="position-relative">
+          <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+          <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+        </div>
+        <div class="ms-3">
+          <h6 class="mb-0">Admin</h6>
+          <span>Admin</span>
+        </div>
+      </div>
+      <div class="navbar-nav w-100">
+        <a href="index.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+        <!-- admin.html -->
+        <a href="#" class="dropdown-item" id="updateproduct" onclick="navigateToUpdateProduct('some-product-id')">Update Product</a>
+
+        <script>
+          function navigateToUpdateProduct(productId) {
+            window.location.href = `updateproduct.html?id=${productId}`;
+          }
+        </script> <a href="calculator.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Calculator</a>
+        <a href="element.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Elements</a>
+        <a href="widget.html" class="nav-item nav-link"><i class="fa fa-chart-area me-2"></i>Widgets</a>
+        <a href="form.html" class="nav-item nav-link"><i class="fa fa-edit me-2"></i>Forms</a>
+        <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
+        <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-pie me-2"></i>Charts</a>
+        <a href="addcashier.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Add Cashier</a>
+        <a href="marketing.html" class="nav-item nav-link"><i class="fa fa-book me-2"></i>Marketing</a>
+        <a href="blank.html" class="nav-item nav-link"><i class="fa fa-file-alt me-2"></i>Blank Page</a>
+        <a href="payment.html" class="nav-item nav-link"><i class="fa fa-money-bill me-2"></i>Payment</a>
+        <a href="receipt.html" class="nav-item nav-link"><i class="fa fa-receipt me-2"></i>Receipt</a>
+      </div>
+    </nav>
+
+    <div class="content">
+      <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
         <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-            <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+          <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
         </a>
         <a href="#" class="sidebar-toggler flex-shrink-0">
-            <i class="fa fa-bars"></i>
+          <i class="fa fa-bars"></i>
         </a>
         <form class="d-none d-md-flex ms-4">
-            <button class="sidebar-toggler">Toggle Sidebar</button>
-
-            <!-- Search Input -->
-            <input type="text" class="form-control" placeholder="Search products...">        </form>
+          <input class="form-control border-0" type="search" placeholder="Search">
+        </form>
         <div class="navbar-nav align-items-center ms-auto">
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-envelope me-lg-2"></i>
-                    <span class="d-none d-lg-inline-flex">Message</span>
+          <!-- Admin Notifications -->
+          <div class="navbar-nav align-items-center ms-auto">
+            <div class="nav-item dropdown" id="notificationDropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="fa fa-bell me-lg-2"></i>
+                <span class="d-none d-lg-inline-flex">Notification</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                <a href="#" class="dropdown-item">
+                  <h6 class="fw-normal mb-0">New order received</h6>
+                  <small>15 minutes ago</small>
                 </a>
+                <hr class="dropdown-divider">
+                <a href="#" class="dropdown-item text-center">See all notifications</a>
+              </div>
+            </div>
+            <div class="nav-item dropdown" id="messageDropdown">
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="fa fa-envelope me-lg-2"></i>
+                <span class="d-none d-lg-inline-flex">Message</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                <a href="#" class="dropdown-item">
+                  <h6 class="fw-normal mb-0">User sent a message</h6>
+                  <small>15 minutes ago</small>
+                </a>
+                <hr class="dropdown-divider">
+                <a href="#" class="dropdown-item text-center">See all messages</a>
+              </div>
             </div>
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <i class="fa fa-bell me-lg-2"></i>
-                    <span class="d-none d-lg-inline-flex">Notification</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">Profile updated</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">New user added</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item">
-                        <h6 class="fw-normal mb-0">Password changed</h6>
-                        <small>15 minutes ago</small>
-                    </a>
-                    <hr class="dropdown-divider">
-                    <a href="#" class="dropdown-item text-center">See all notifications</a>
+              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                <span class="d-none d-lg-inline-flex">Admin</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                <div class="header">
+                  <button id="logoutButton">Logout</button>
+                  <button id="toggleThemeButton">Toggle Theme</button>
+                  <a href="#" class="dropdown-item" id="profile">My Profile</a>
+                  <a href="#" class="dropdown-item" id="settings">Settings</a>
+                  <a href="blog.html" class="dropdown-item" id="write-blog">Write Blog Post</a>
+                  <a href="#" class="dropdown-item" id="updateproduct">updated product</a>
                 </div>
+
+              </div>
             </div>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                    <span class="d-none d-lg-inline-flex">John Doe</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                    <a href="#" class="dropdown-item">My Profile</a>
-                    <a href="#" class="dropdown-item">Settings</a>
-                    <a href="#" class="dropdown-item">Log Out</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+      </nav>
     <!-- Navbar End -->
 
     <!-- Intro Section Start -->
@@ -84,204 +130,246 @@ this is marketing.html
 <!-- Sidebar toggler button -->
 
 
-    <!-- Product Section Start -->
-    <div id="productList">
-        
-<!-- Product Sections -->
-<div class="row" id="vendor">
-    <div class="container my-4">
-        <h2>vendor Name:</h2>
-        <div class="row">
-            <!-- Product Card Example -->
-            <div class="col-lg-3 col-md-6 mb-4">
-              
-                <div class="card">
-                    <img src="path/to/energy-drink1.jpg" class="card-img-top" alt="Energy Drink">
-                    <div class="card-body">
-                        <h5 class="card-title">Energy Drink 1</h5>
-                        <p class="card-text">A refreshing energy drink.</p>
-                        <p class="card-text"><strong>Price: $2</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <img src="assets/images/big-cola.jpeg" class="card-img-top" alt="Energy Drink">
-                    <div class="card-body">
-                        <h5 class="card-title">Bigi cola</h5>
-                        <p class="card-text">A refreshing energy drink.</p>
-                        <p class="card-text"><strong>Price:</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/energy-drink1.jpg" class="card-img-top" alt="Energy Drink">
-                    <div class="card-body">
-                        <h5 class="card-title">Energy Drink 1</h5>
-                        <p class="card-text">A refreshing energy drink.</p>
-                        <p class="card-text"><strong>Price: $2</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/energy-drink1.jpg" class="card-img-top" alt="Energy Drink">
-                    <div class="card-body">
-                        <h5 class="card-title">Energy Drink 1</h5>
-                        <p class="card-text">A refreshing energy drink.</p>
-                        <p class="card-text"><strong>Price: $2</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/energy-drink1.jpg" class="card-img-top" alt="Energy Drink">
-                    <div class="card-body">
-                        <h5 class="card-title">Energy Drink 1</h5>
-                        <p class="card-text">A refreshing energy drink.</p>
-                        <p class="card-text"><strong>Price: $2</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/energy-drink1.jpg" class="card-img-top" alt="Energy Drink">
-                    <div class="card-body">
-                        <h5 class="card-title">Energy Drink 1</h5>
-                        <p class="card-text">A refreshing energy drink.</p>
-                        <p class="card-text"><strong>Price: $2</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
 
-</div>
-<div class="row" id="maltinaDrinks">
-    <div class="container my-4">
-        <h2>Maltina</h2>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/maltina1.jpg" class="card-img-top" alt="Maltina">
-                    <div class="card-body">
-                        <h5 class="card-title">Maltina 1</h5>
-                        <p class="card-text">Delicious malt drink.</p>
-                        <p class="card-text"><strong>Price: $1.5</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Repeat for more product cards (total of 4 cards in this section) -->
-            <!-- ... -->
-        </div>
-    </div>
+<!-- Vendors Section Start -->
+<section id="vendors" class="my-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Our Vendors</h2>
 
-    <div class="container my-4">
-        <h2>Cola</h2>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/cola1.jpg" class="card-img-top" alt="Cola">
-                    <div class="card-body">
-                        <h5 class="card-title">Cola 1</h5>
-                        <p class="card-text">Classic cola drink.</p>
-                        <p class="card-text"><strong>Price: $1</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+        <!-- Coca-Cola Section -->
+        <div class="vendor-section my-4">
+            <h3>Coca-Cola</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/coke.jpg" class="card-img-top" alt="Coke">
+                        <div class="card-body">
+                            <h5 class="card-title">Coke</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY100</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦150</p>
+                            <p class="card-text">Classic cola drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.5/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
                     </div>
                 </div>
+                <!-- Repeat similar structure for Fanta, 5 Alive, Eva Water, and Sprite -->
             </div>
-            <!-- Repeat for more product cards (total of 4 cards in this section) -->
-            <!-- ... -->
         </div>
-    </div>
-</div>
 
-<div class="row" id="colaDrinks"></div>
-<div class="row" id="tropicalDrinks">
-    <div class="container my-4">
-        <h2>Tropical</h2>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="assets/images/bigi-lemon.jpeg" class="card-img-top" alt="Tropical Drink">
-                    <div class="card-body">
-                        <h5 class="card-title">Bigi Tropical Drink</h5>
-                        <p class="card-text">lemon fruit drink.</p>
-                        <p class="card-text"><strong>Price: $2</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+        <!-- Bigi Section -->
+        <div class="vendor-section my-4">
+            <h3>Bigi</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/bigi-tropical.jpg" class="card-img-top" alt="Bigi Tropical">
+                        <div class="card-body">
+                            <h5 class="card-title">Bigi Tropical</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY101</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦120</p>
+                            <p class="card-text">Tropical flavored drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.3/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
                     </div>
                 </div>
+                <!-- Repeat similar structure for Bigi Cola, Bigi Apple, Bigi Cherry Berry, and Bigi Lemon Juice -->
             </div>
-            <!-- Repeat for more product cards (total of 4 cards in this section) -->
-            <!-- ... -->
+        </div>
+
+        <!-- Maltina Section -->
+        <div class="vendor-section my-4">
+            <h3>Maltina</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/maltina.jpg" class="card-img-top" alt="Maltina">
+                        <div class="card-body">
+                            <h5 class="card-title">Maltina</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY102</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦200</p>
+                            <p class="card-text">Classic malt drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.6/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Hi-Malt, Malta Gold, Malta Guinness, and Malt Beta -->
+            </div>
+        </div>
+
+        <!-- Viju Section -->
+        <div class="vendor-section my-4">
+            <h3>Viju</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/viju-yoghurt.jpg" class="card-img-top" alt="Viju Yoghurt">
+                        <div class="card-body">
+                            <h5 class="card-title">Viju Yoghurt</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY103</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦180</p>
+                            <p class="card-text">Creamy yoghurt drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.4/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Viju Wheat, Viju Pineapple Juice, Viju Apple, and Vigore -->
+            </div>
+        </div>
+
+        <!-- Big Section -->
+        <div class="vendor-section my-4">
+            <h3>Big</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/big-cola.jpg" class="card-img-top" alt="Big Cola">
+                        <div class="card-body">
+                            <h5 class="card-title">Big Cola</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY104</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦130</p>
+                            <p class="card-text">Big cola drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.2/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Big Tropical, Big Lemon, and Big Chapman -->
+            </div>
+        </div>
+
+        <!-- Pepsi Section -->
+        <div class="vendor-section my-4">
+            <h3>Pepsi</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/pepsi-cola.jpg" class="card-img-top" alt="Pepsi Cola">
+                        <div class="card-body">
+                            <h5 class="card-title">Pepsi Cola</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY105</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦140</p>
+                            <p class="card-text">Classic Pepsi cola drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.3/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Team, 7UP, and Super Komando -->
+            </div>
+        </div>
+
+        <!-- Holandia Section -->
+        <div class="vendor-section my-4">
+            <h3>Holandia</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/holandia-yoghurt.jpg" class="card-img-top" alt="Holandia Yoghurt">
+                        <div class="card-body">
+                            <h5 class="card-title">Holandia Yoghurt</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY106</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦160</p>
+                            <p class="card-text">Creamy yoghurt drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.5/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Peak Yoghurt, and Chivita -->
+            </div>
+        </div>
+
+        <!-- Slim Section -->
+        <div class="vendor-section my-4">
+            <h3>S
+
+lim</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/slim-cola.jpg" class="card-img-top" alt="Slim Cola">
+                        <div class="card-body">
+                            <h5 class="card-title">Slim Cola</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY107</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦140</p>
+                            <p class="card-text">Diet cola drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.3/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Slim Lemon, Slim Chapman, and Slim Apple -->
+            </div>
+        </div>
+
+        <!-- Smoov Section -->
+        <div class="vendor-section my-4">
+            <h3>Smoov</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/smoov-chapman.jpg" class="card-img-top" alt="Smoov Chapman">
+                        <div class="card-body">
+                            <h5 class="card-title">Smoov Chapman</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY108</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦130</p>
+                            <p class="card-text">Chapman flavored drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.4/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Smoov Apple, Smoov Cola, and Smoov Lemon -->
+            </div>
+        </div>
+
+        <!-- Lucozade Section -->
+        <div class="vendor-section my-4">
+            <h3>Lucozade</h3>
+            <div class="row">
+                <!-- Product Cards -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="assets/images/lucozade-boost.jpg" class="card-img-top" alt="Lucozade Boost">
+                        <div class="card-body">
+                            <h5 class="card-title">Lucozade Boost</h5>
+                            <p class="card-text"><strong>Tracking No:</strong> ODY109</p>
+                            <p class="card-text"><strong>Size:</strong> 40cl</p>
+                            <p class="card-text"><strong>Price:</strong> ₦200</p>
+                            <p class="card-text">Energy drink.</p>
+                            <p class="card-text"><strong>Rating:</strong> 4.7/5</p>
+                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat similar structure for Lucozade Original, Lucozade Orange, and Lucozade Cola -->
+            </div>
         </div>
     </div>
-</div>
-<div class="row" id="fantaDrinks">
-    <div class="container my-4">
-        <h2>Fanta</h2>
-        <div class="row">
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/fanta1.jpg" class="card-img-top" alt="Fanta">
-                    <div class="card-body">
-                        <h5 class="card-title">Fanta</h5>
-                        <p class="card-text">Orange flavored drink.</p>
-                        <p class="card-text"><strong>Price: $1.8</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/fanta1.jpg" class="card-img-top" alt="Fanta">
-                    <div class="card-body">
-                        <h5 class="card-title">big Orange</big></h5>
-                        <p class="card-text">Orange flavored drink.</p>
-                        <p class="card-text"><strong>Price: $1.8</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/fanta1.jpg" class="card-img-top" alt="Fanta">
-                    <div class="card-body">
-                        <h5 class="card-title">5alive</h5>
-                        <p class="card-text">Orange flavored drink.</p>
-                        <p class="card-text"><strong>Price: $1.8</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="path/to/fanta1.jpg" class="card-img-top" alt="Fanta">
-                    <div class="card-body">
-                        <h5 class="card-title">bigi Orange</h5>
-                        <p class="card-text">Orange flavored drink.</p>
-                        <p class="card-text"><strong>Price: $1.8</strong></p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Repeat for more product cards (total of 4 cards in this section) -->
-            <!-- ... -->
-        </div>
-    </div>
-</div>
-</div>
-                        <!-- Repeat for more product cards (total of 4 cards in this section) -->
-                <!-- ... -->
-            </div>
-        </div>
-    
-            
+</section>
+<!-- Vendors Section End -->
         
     
        
@@ -334,288 +422,88 @@ this is marketing.html
     </div>
     <!-- Happy Customers Section End -->
 
-    <!-- Footer Start -->
-    <footer
+  >
 
- class="bg-dark text-white py-4">
-        <div class="container">
-            <p class="mb-0 text-center">© 2024 Oladayo Enterprises. All Rights Reserved.</p>
-        </div>
-    </footer>
+<!-- Footer Start -->
+<footer class="bg-light py-4 mt-5">
+  <div class="container text-center">
+    <p>© 2024 Oladayo Ventures. All rights reserved.</p>
+    <div>
+      <a href="#" class="text-dark mx-2">Privacy Policy</a> |
+      <a href="#" class="text-dark mx-2">Terms of Service</a>
+    </div>
+    <div class="social-icons mt-3">
+      <a href="#"><img src="assets/images/facebook-icon.png" alt="Facebook" width="30"></a>
+      <a href="#"><img src="assets/images/twitter-icon.png" alt="Twitter" width="30"></a>
+      <a href="#"><img src="assets/images/instagram-icon.png" alt="Instagram" width="30"></a>
+    </div>
+  </div>
+</footer>
+<!-- Footer End -->
     <!-- Footer End -->
-
-    <script src="path/to/bootstrap.bundle.min.js"></script>
-    
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marketing</title>
-<link rel="stylesheet" href="styles.css">
-<script src="script.js"></script>
-</head>
-<body>
-<header>
-<nav>
-<ul>
-<li><a href="#" id="user-dashboard">User</a></li>
-<li><a href="#" id="admin-dashboard">Admin</a></li>
-<li><a href="#" id="cashier-dashboard">Cashier</a></li>
-</ul>
-</nav>
-</header>
-<main>
-<section class="search-bar">
-<input type="search" id="search-input" placeholder="Search by category, size, quantity, price, or name">
-<select id="search-select">
-<option value="category">Category</option>
-<option value="size">Size</option>
-<option value="quantity">Quantity</option>
-<option value="price">Price</option>
-<option value="name">Name</option>
-</select>
-<button id="search-button">Search</button>
-</section>
-<section class="products">
-<h2 id="vendor-1">Vendor 1</h2>
-<div class="product-gallery">
-<!-- display products here -->
-</div>
-<h2 id="vendor-2">Vendor 2</h2>
-<div class="product-gallery">
-<!-- display products here -->
-</div>
-<!-- repeat for 6 vendors -->
-<h2 id="happy-customers">Happy Customers</h2>
-<div class="customer-gallery">
-<!-- display happy customers here -->
-</div>
-<h2 id="team-members">Team Members</h2>
-<div class="team-gallery">
-<!-- display team members here -->
-</div>
-</section>
-<section class="cart">
-<h2>Cart</h2>
-<ul id="cart-list">
-<!-- display cart items here -->
-</ul>
-<button id="confirm-button">Confirm</button>
-<button id="remove-button">Remove</button>
-<button id="cancel-button">Cancel</button>
-</section>
-</main>
 <script>
-// JavaScript code to handle dashboard switching, search functionality, and cart functionality
+  // Fetch messages when the dropdown is clicked
+document.querySelector('.message-dropdown').addEventListener('click', function() {
+  fetch('/messages/fetch')
+    .then(response => response.json())
+    .then(data => {
+      const messageDropdown = document.querySelector('.message-dropdown .dropdown-menu');
+      messageDropdown.innerHTML = ''; // Clear existing messages
+
+      data.forEach(msg => {
+        messageDropdown.innerHTML += `
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">${msg.title}</h6>
+                        <small>${msg.time}</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                `;
+      });
+
+      messageDropdown.innerHTML += `<a href="#" class="dropdown-item text-center">See all messages</a>`;
+    })
+    .catch(error => console.error('Error fetching messages:', error));
+});
+
+// Fetch notifications when the dropdown is clicked
+document.querySelector('.notification-dropdown').addEventListener('click', function() {
+  fetch('/notifications/fetch')
+    .then(response => response.json())
+    .then(data => {
+      const notificationDropdown = document.querySelector('.notification-dropdown .dropdown-menu');
+      notificationDropdown.innerHTML = ''; // Clear existing notifications
+
+      data.forEach(notif => {
+        notificationDropdown.innerHTML += `
+                    <a href="#" class="dropdown-item">
+                        <h6 class="fw-normal mb-0">${notif.title}</h6>
+                        <small>${notif.time}</small>
+                    </a>
+                    <hr class="dropdown-divider">
+                `;
+      });
+
+      notificationDropdown.innerHTML += `<a href="#" class="dropdown-item text-center">See all notifications</a>`;
+    })
+    .catch(error => console.error('Error fetching notifications:', error));
+});
 </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="assets/js/admin.js"></script>
+    <script src="assets/js/add-cashier.js"></script>
+    <script src="assets/js/add-product.js"></script>
+    <script src="assets/js/blog.js"></script>
+    <script src="assets/js/fetch-data.js"></script>
 </body>
+
 </html>
 
-this is marketing.js
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Sidebar toggle for smaller screens
-  const sidebarToggler = document.querySelector('.sidebar-toggler');
-  if (sidebarToggler) {
-    sidebarToggler.addEventListener('click', () => {
-      document.querySelector('.sidebar').classList.toggle('open');
-    });
-  }
-
-  // Fetch and display products
-  loadProducts();
-
-  function loadProducts() {
-    fetch('/api/products')
-      .then(response => response.json())
-      .then(products => displayProducts(products))
-      .catch(error => console.error('Error fetching products:', error));
-  }
-
-  function displayProducts(products) {
-    const productSections = {
-      'Energy Drinks': document.querySelector('.row:nth-of-type(1)'),
-      'Maltina': document.querySelector('.row:nth-of-type(2)'),
-      'Cola': document.querySelector('.row:nth-of-type(3)'),
-      'Tropical': document.querySelector('.row:nth-of-type(4)'),
-      'Fanta': document.querySelector('.row:nth-of-type(5)')
-    };
-
-    products.forEach(product => {
-      const productCard = createProductCard(product);
-      if (productSections[product.category]) {
-        productSections[product.category].appendChild(productCard);
-      }
-    });
-  }
-
-  function createProductCard(product) {
-    const cardDiv = document.createElement('div');
-    cardDiv.className = 'col-lg-3 col-md-6 mb-4';
-
-    const card = document.createElement('div');
-    card.className = 'card';
-
-    const img = document.createElement('img');
-    img.className = 'card-img-top';
-    img.src = product.image;
-    img.alt = product.name;
-
-    const cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
-
-    const cardTitle = document.createElement('h5');
-    cardTitle.className = 'card-title';
-    cardTitle.textContent = product.name;
-
-    const cardText1 = document.createElement('p');
-    cardText1.className = 'card-text';
-    cardText1.textContent = product.description;
-
-    const cardText2 = document.createElement('p');
-    cardText2.className = 'card-text';
-    cardText2.innerHTML = `<strong>Price: $${product.price}</strong>`;
-
-    const addButton = document.createElement('button');
-    addButton.className = 'btn btn-primary';
-    addButton.textContent = 'Add to Cart';
-    addButton.onclick = () => addToCart(product.id);
-
-    cardBody.append(cardTitle, cardText1, cardText2, addButton);
-    card.append(img, cardBody);
-    cardDiv.appendChild(card);
-
-    return cardDiv;
-  }
-
-  function addToCart(productId) {
-    fetch('/api/cart', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productId })
-    })
-      .then(response => response.json())
-      .then(result => alert(result.message))
-      .catch(error => console.error('Error adding to cart:', error));
-  }
-
-  // Setup search functionality
-  const searchInput = document.querySelector('.form-control');
-  if (searchInput) {
-    searchInput.addEventListener('input', async (event) => {
-      const query = event.target.value;
-      try {
-        const response = await fetch(`/api/products/search?q=${query}`);
-        const products = await response.json();
-        displayProducts(products);
-      } catch (error) {
-        console.error('Error searching products:', error);
-      }
-    });
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  const productList = document.getElementById('productList');
-
-  // Fetch inventory from localStorage (or server in real implementation)
-  let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-
-  inventory.forEach(product => {
-    const productItem = document.createElement('div');
-    productItem.className = 'product-item';
-    productItem.innerHTML = `
-      <h3>${product.productName}</h3>
-      <p>Vendor: ${product.vendorCategory}</p>
-      <p>Brand: ${product.brandCategory}</p>
-      <p>Size: ${product.productSize}</p>
-      <p>Price: $${product.productPrice}</p>
-    `;
-    productList.appendChild(productItem);
-  });
-});
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  const categories = {
-    'Energy Drinks': 'energyDrinks',
-    'Maltina': 'maltinaDrinks',
-    'Cola': 'colaDrinks',
-    'Tropical': 'tropicalDrinks',
-    'Fanta': 'fantaDrinks'
-  };
-
-  // Fetch inventory from localStorage (or server in real implementation)
-  let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-
-  inventory.forEach(product => {
-    if (categories[product.vendorCategory]) {
-      const productList = document.getElementById(categories[product.vendorCategory]);
-      const productCard = createProductCard(product);
-      productList.appendChild(productCard);
-    }
-  });
-
-  function createProductCard(product) {
-    const colDiv = document.createElement('div');
-    colDiv.className = 'col-lg-3 col-md-6 mb-4';
-
-    const cardDiv = document.createElement('div');
-    cardDiv.className = 'card';
-
-    const img = document.createElement('img');
-    img.src = product.image || '../images/coke.jpeg'; // Use a default image if product.image is not provided
-    img.className = 'card-img-top';
-    img.alt = product.productName;
-
-    const cardBody = document.createElement('div');
-    cardBody.className = 'card-body';
-
-    const title = document.createElement('h5');
-    title.className = 'card-title';
-    title.textContent = product.productName;
-
-    const description = document.createElement('p');
-    description.className = 'card-text';
-    description.textContent = product.description || 'No description available.'; // Use a default description if not provided
-
-    const price = document.createElement('p');
-    price.className = 'card-text';
-    price.innerHTML = `<strong>Price: $${product.productPrice}</strong>`;
-
-    const addToCartButton = document.createElement('a');
-    addToCartButton.href = '#';
-    addToCartButton.className = 'btn btn-primary';
-    addToCartButton.textContent = 'Add to Cart';
-    addToCartButton.addEventListener('click', (e) => {
-      e.preventDefault();
-      addToCart(product);
-    });
-
-    cardBody.appendChild(title);
-    cardBody.appendChild(description);
-    cardBody.appendChild(price);
-    cardBody.appendChild(addToCartButton);
-
-    cardDiv.appendChild(img);
-    cardDiv.appendChild(cardBody);
-    colDiv.appendChild(cardDiv);
-
-    return colDiv;
-  }
-
-  function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`${product.productName} has been added to your cart.`);
-  }
-});
