@@ -21,7 +21,6 @@ app.use('/cashiers', cashierRoutes);
 module.exports = app;
 // app.js
 const express = require('express');
-const app = express();
 const path = require('path');
 
 // Body parser middleware
@@ -154,7 +153,6 @@ const passport = require('passport');
 const flash = require('connect-flash');
 
 // Initialize Express app
-const app = express();
 
 // Middleware for parsing JSON and URL-encoded data
 app.use(express.json());
@@ -230,7 +228,6 @@ mongoose.connect('mongodb://localhost:27017/your-db-name', {
   .catch(err => console.log(err));
 
 // Start the server
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
    // Serve static files like CSS, JS, Images
    app.use(express.static(path.join(__dirname, 'public')));
