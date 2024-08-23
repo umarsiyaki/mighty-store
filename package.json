@@ -64,7 +64,7 @@
     "semi": true
   },
   "nodemonConfig": {
-    "watch": ["server.js", "routes/", "models/", "components/", "db/"],
+    "watch": ["server.js", "routes/", "models/", "controllers", "components/", "mongodb/"],
     "ext": "js,json,html,css",
     "ignore": ["node_modules/"]
   },

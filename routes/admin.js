@@ -643,5 +643,13 @@ router.get('/products/category/:category', authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+const express = require('express');
+
+// Routes for admin operations
+router.get('/profile', AdminController.getProfile);
+router.post('/profile/update', AdminController.updateProfile);
+router.post('/add-cashier', AdminController.addCashier);
+router.get('/revenue/monthly', AdminController.getMonthlyRevenue);
+router.get('/topselling', AdminController.getTopSellingProducts);
+
 module.exports = router;

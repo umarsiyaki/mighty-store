@@ -1,16 +1,12 @@
-
 const mongoose = require('mongoose');
-
-
 const bcrypt = require('bcryptjs');
 
+// Define User Schema
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  fistName: { type: String, required: true },
-  surename: { type: String, required: true }, 
-  
+  firstName: { type: String, required: true },
+  surname: { type: String, required: true }, 
   middleName: { type: String, required: true },
-
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ['admin', 'cashier', 'user'], default: 'user' },
@@ -20,8 +16,14 @@ const UserSchema = new mongoose.Schema({
 // Password hashing middleware
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  try {
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
-module.exports = mongoose.model('User', UserSchema);
+// Export the User model
+const User = mongoose.model('User', UserSchema);
+module.exports = User;

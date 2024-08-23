@@ -1,12 +1,13 @@
+// Required Modules
 const express = require('express');
+const path = require('path');
 const router = express.Router();
 
-// Route to home page
+// Routes for serving static HTML files
 router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-// Other routes for the updated pages
 router.get('/products', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/market.html'));
 });
@@ -30,10 +31,6 @@ router.get('/payment', (req, res) => {
 router.get('/receipt', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/receipt.html'));
 });
-router.get('/calculator', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/calculator.html'));
-});
-
 
 router.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/admin.html'));
@@ -51,10 +48,6 @@ router.get('/signup', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/signup.html'));
 });
 
-router.get('/payment', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/payment.html'));
-});
-
 router.get('/home', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
@@ -70,6 +63,8 @@ router.get('/updateproduct', (req, res) => {
 router.get('/addproduct', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/addproduct.html'));
 });
+
+// React Integration
 import React from 'react';
 import ReactDOM from 'react-dom';
 import '../public/assets/styles.css'; // Import global CSS (optional)
@@ -82,4 +77,3 @@ ReactDOM.render(
 );
 
 module.exports = router;
-

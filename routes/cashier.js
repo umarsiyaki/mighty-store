@@ -2,7 +2,6 @@
 // Assuming you're using Express and a database like MongoDB or MySQL
 
 const express = require('express');
-const router = express.Router();
 
 // Assuming you have a Cashier model (for MongoDB/Mongoose)
 const Cashier = require('../models/Cashier'); // Import Cashier model
@@ -117,3 +116,15 @@ router.post('/cashier/add', async (req, res) => {
         res.json({ success: false, message: 'Error adding cashier' });
     }
 });
+
+const express = require('express');
+const CashierController = require('../controllers/CashierController');
+
+// Routes for cashier operations
+router.get('/profile', CashierController.getProfile);
+router.post('/profile/update', CashierController.updateProfile);
+router.post('/confirm-order', CashierController.confirmOrder);
+router.post('/add-product', CashierController.addProduct);
+router.get('/performance', CashierController.getPerformance);
+
+module.exports = router;
