@@ -71,3 +71,11 @@
   "author": "Umar yakub Siyaki",
   "license": "ISC"
 }
+
+{
+  "name": "oladayo-enterprises",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "mysql -u root -p<password> oladayo_enterprises < server.sql"
+  }
+}

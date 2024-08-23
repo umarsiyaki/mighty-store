@@ -1,9 +1,7 @@
 
-// Assuming you're using Express and a database like MongoDB or MySQL
-
 const express = require('express');
 
-// Assuming you have a Cashier model (for MongoDB/Mongoose)
+//i have a Cashier model (for MongoDB/Mongoose)
 const Cashier = require('../models/Cashier'); // Import Cashier model
 
 // Add cashier to database
