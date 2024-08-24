@@ -1,10 +1,8 @@
 
-// Assuming you're using Express and a database like MongoDB or MySQL
-
 const express = require('express');
 const router = express.Router();
 
-// Assuming you have a Cashier model (for MongoDB/Mongoose)
+//i have a Cashier model (for MongoDB/Mongoose)
 const Cashier = require('../models/Cashier'); // Import Cashier model
 
 // Add cashier to database
@@ -117,3 +115,30 @@ router.post('/cashier/add', async (req, res) => {
         res.json({ success: false, message: 'Error adding cashier' });
     }
 });
+
+const express = require('express');
+const router = express.Router();
+const Cashier = require('../models/Cashier');
+
+router.get('/', async (req, res) => {
+try {
+const cashiers = await Cashier.find().exec();
+res.json(cashiers);
+} catch (error) {
+console.error(error);
+res.status(500).json({ message: 'Error fetching cashiers' });
+}
+});
+
+router.post('/', async (req, res) => {
+try {
+const cashier = new Cashier(req.body);
+await cashier.save();
+res.json(cashier);
+} catch (error) {
+console.error(error);
+res.status(500).json({ message: 'Error creating cashier' });
+}
+});
+
+module.exports = router;

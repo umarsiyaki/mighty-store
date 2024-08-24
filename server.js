@@ -195,3 +195,57 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+// Get vendor options
+fetch('api.php?action=getVendors')
+  .then(response => response.json())
+  .then(vendors => {
+    vendors.forEach(vendor => {
+      const option = document.createElement('option');
+      option.value = (link unavailable);
+      option.text = vendor.name;
+      vendorSelect.appendChild(option);
+    });
+  });
+
+// Get category options
+vendorSelect.addEventListener('change', () => {
+  const vendorId = vendorSelect.value;
+  fetch(`api.php?action=getCategories&vendorId=${vendorId}`)
+    .then(response => response.json())
+    .then(categories => {
+      categorySelect.innerHTML = '';
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = (link unavailable);
+        option.text = category.name;
+        categorySelect.appendChild(option);
+      });
+    });
+});
+
+// Handle product submission
+document.getElementById('submit-btn').addEventListener('click', () => {
+  const formData = new FormData(document.getElementById('add-product-form'));
+  fetch('api.php?action=addProduct', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.message);
+    });
+});
+
+// Handle login submission
+document.getElementById('login-btn').addEventListener('click', () => {
+  const formData = new FormData(document.getElementById('login-form'));
+  fetch('public/api.js?action=login', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.message);
+    });
+});

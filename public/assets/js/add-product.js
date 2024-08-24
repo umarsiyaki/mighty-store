@@ -271,3 +271,4 @@ addProductForm.addEventListener('submit', (e) => {
   }
 });
 });
+

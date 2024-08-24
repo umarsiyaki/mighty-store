@@ -1,146 +1,5 @@
 
-// app.js
-const express = require('express');
-const mongoose = require('mongoose');
-const cashierRoutes = require('./routes/cashierRoutes');
-
-const app = express();
-
-// Middleware to parse JSON bodies
-app.use(express.json());
-
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/oladayo_enterprises', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// Use the cashier routes
-app.use('/cashiers', cashierRoutes);
-
-module.exports = app;
-// app.js
-const express = require('express');
-const path = require('path');
-
-// Body parser middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Routes
-
-const auth = require('./routes/auth');
-const addCashierRoute = require('./routes/addcashier');
-const Cashier = require('./routes/cashier');
-const admin = require('./routes/addcashier');
-const api = require('./routes/api');
-const marketing = require('./routes/marketing');
-const chart = require('./routes/chat');
-
-// Add cashier route
-app.use('/api/cashier', addCashierRoute);
-
-// use admin route
-app.use('/api/admin', admin);
-
-// Add product route
-app.use('/api/product', addProductRoute);
-
-//marketing route
-app.use('/api/marketing', marketing);
-
-// calculator route
-app.use('/api/calculator', calculator);
-
-// update product route
-app.use('/api/updateProduct', updateProduct);
-
-// daily transaction routes 
-app.use('/api/order', order);
-
-// product routes 
-app.use('/api/product', product);
-
-// message route
-app.use('/api/message', message);
-
-// location route
-app.use('/api/location', location);
-
-//  user route
-app.use('/api/user', user);
-
-// recipt route
-app.use('/api/receipt', receipt);
-
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// update product HTML page
-app.get('/updateproduct', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'updateproduct.html'));
-});
-
-// cashier HTML page
-app.get('/cashier', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'cashier.html'));
-});
-
-// Admin HTML page
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
-});
-// location HTML page
-app.get('/location', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'location.html'));
-});
-// calculator HTML page
-app.get('/calculator', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'calculator.html'));
-});
-// Add blog HTML page
-app.get('/blog', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'blog.html'));
-});
-// marketing HTML page
-app.get('/marketing', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'marketing.html'));
-});
-// home page HTML page
-app.get('/index', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-// chart HTML page
-app.get('/chart', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'chart.html'));
-});
-// receipt HTML page
-app.get('/receipt', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'receipt.html'));
-});
-// payment HTML page
-app.get('/payment', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'payment.html'));
-});
-// register login HTML page
-app.get('/register-login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'register-login.html'));
-});
-// user HTML page
-app.get('/user', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'user.html'));
-});
-// signup HTML page
-app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'signup.html'));
-});
-
-// Listen on the defined port
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
+// Import required modules
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
@@ -151,101 +10,430 @@ const csrf = require('csurf');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const flash = require('connect-flash');
+const cors = require('cors');
+const logger = require('morgan');
+const compression = require('compression');
+const sslRedirect = require('heroku-ssl-redirect');
 
 // Initialize Express app
+const app = express();
 
-// Middleware for parsing JSON and URL-encoded data
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/warehouse-inventory', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// Middleware
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Set security headers using Helmet
-app.use(helmet());
-
-// Set up rate limiter to prevent DDoS and brute-force attacks
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 500, // Limit each IP to 100 requests per windowMs
-  message: 'Too many requests, please try again later.',
-});
-app.use(limiter);
-
-// CSRF protection
-const csrfProtection = csrf();
-app.use(csrfProtection);
-
-// Session handling
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 500,
+}));
+const secretCode = require('crypto').randomBytes(64).toString('hex');
+console.log(secretCode)
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: 'mongodb://localhost:27017/your-db-name', // Replace with your DB
+    mongoUrl: 'mongodb://localhost:27017/warehouse-inventor',
     collectionName: 'sessions',
   }),
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24, // 1 day
-    secure: true, // Set to true if using https
-    httpOnly: true, // Prevents client-side JS from reading the cookie
+    maxAge: 1000 * 60 * 60 * 24,
+    secure: true,
+    httpOnly: true,
   },
 }));
-
-// Initialize Passport for authentication
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Flash messages for notifications
 app.use(flash());
+app.use(csrf());
+app.use(cors());
+app.use(logger('dev'));
+app.use(compression());
+app.use(sslRedirect());
 
-// Serve static files from public directory
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
+app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
-// Set view engine to EJS
-app.set('view engine', 'ejs');
+// Serve individual js files
+app.get('/js/addproduct.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/js/addproduct.js'));
+});
+app.get('/js/payment.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/js/payment.js'));
+});
+app.get('/js/admin.js', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/js/admin.js'));
+});
+// ... (add all the individual js files here)
+
+// Serve css files
+app.get('/css/styles.css', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/css/styles.css'));
+});
+
+// Serve image files
+app.get('/images/Bigi-cola.jpeg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/images/Bigi-cola.jpeg'));
+});
+app.get('/images/other-image.jpeg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/images/other-image.jpeg'));
+});
 
 // Routes
-app.use('/', require('./routes/index'));
-app.use('/user', require('./routes/user'));
-app.use('/admin', require('./routes/admin'));
-app.use('/cashier', require('./routes/cashier'));
+const auth = require('./routes/auth');
+const addCashierRoute = require('./routes/addcashier');
+const Cashier = require('./routes/cashier');
+const admin = require('./routes/addcashier');
+const api = require('./routes/api');
+const marketing = require('./routes/marketing');
+const chart = require('./routes/chat');
+app.use('/api/cashier', addCashierRoute);
+app.use('/api/admin', admin);
+app.use('/api/marketing', marketing);
+app.use('/api/calculator', calculator);
+app.use('/api/order', order);
+app.use('/api/product', product);
+app.use('/api/message', message);
+app.use('/api/location', location);
+app.use('/api/user', user);
+app.use('/api/receipt', receipt);
 
-// Handle 404
-app.use((req, res) => {
-  res.status(404).render('404', { title: '404 - Not Found' });
+// HTML pages
+app.get('/updateproduct', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'updateproduct.html'));
 });
+app.get('/cashier', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'cashier.html'));
+});
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+// ... (add all the HTML pages here)
 
-// Global error handling
+// Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something went wrong!');
+  res.status(500).send('Something broke!');
 });
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/your-db-name', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
-// Start the server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-   // Serve static files like CSS, JS, Images
-   app.use(express.static(path.join(__dirname, 'public')));
 
-   // Route to fetch products dynamically
-   app.get('/api/products', (req, res) => {
-     // Sample product data, replace with your database query
-     const products = [
-       { id: 1, name: 'Coca-Cola', price: 50, description: 'Coca-Cola drink.', image: 'coca_cola.jpg' },
-       { id: 2, name: 'Pepsi', price: 45, description: 'Pepsi drink.', image: 'pepsi.jpg' },
-           // Add more products as needed
-       ];
-     res.json(products);
-   });
+// Serve image files
+app.get('/images/Bigi-cola.jpeg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/images/Bigi-cola.jpeg'));
+});
+app.get('/images/other-image.jpeg', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/images/other-image.jpeg'));
+});
 
-   // Serve the marketing page
-   app.get('/marketing', (req, res) => {
-     res.sendFile(path.join(__dirname, 'views/marketing.html'));
-   });
+// Redirecting
+app.get('/redirect', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'login':
+      res.redirect('/login');
+      break;
+    case 'register':
+      res.redirect('/register');
+      break;
+    case 'cashier':
+      res.redirect('/cashier');
+      break;
+    case 'admin':
+      res.redirect('/admin');
+      break;
+    case 'marketing':
+      res.redirect('/marketing');
+      break;
+    default:
+      res.redirect('/login');
+  }
+});
 
-   app.listen(3000, () => console.log('Server running on port 3000'));
+// Message
+app.get('/message', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'send':
+      // Handle send message logic
+      res.redirect('/message-sent');
+      break;
+    case 'inbox':
+      res.redirect('/inbox');
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'message.html'));
+  }
+});
+
+// Notification
+app.get('/notification', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'view':
+      res.redirect('/notification-view');
+      break;
+    case 'clear':
+      // Handle clear notification logic
+      res.redirect('/notification-cleared');
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'notification.html'));
+  }
+});
+
+// Order
+app.get('/order', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'place':
+      // Handle place order logic
+      res.redirect('/order-placed');
+      break;
+    case 'view':
+      res.redirect('/order-view');
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'order.html'));
+  }
+});
+
+// Receipt
+app.get('/receipt', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'view':
+      res.redirect('/receipt-view');
+      break;
+    case 'print':
+      // Handle print receipt logic
+      res.redirect('/receipt-printed');
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'receipt.html'));
+  }
+});
+
+// Transportation
+app.get('/transportation', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'track':
+      // Handle track transportation logic
+      res.redirect('/transportation-tracked');
+      break;
+    case 'view':
+      res.redirect('/transportation-view');
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'transportation.html'));
+  }
+});
+
+// History Login
+app.get('/history-login', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'view':
+      res.redirect('/history-login-view');
+      break;
+    case 'clear':
+      // Handle clear history login logic
+      res.redirect('/history-login-cleared');
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'history-login.html'));
+  }
+});
+
+// Redirecting
+app.get('/redirect', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'login':
+      res.redirect('/login.html');
+      break;
+    case 'register':
+      res.redirect('/register.html');
+      break;
+    case 'cashier':
+      res.redirect('/cashier.html');
+      break;
+    case 'admin':
+      res.redirect('/admin.html');
+      break;
+    case 'marketing':
+      res.redirect('/marketing.html');
+      break;
+    case 'message':
+      res.redirect('/message.html');
+      break;
+    case 'notification':
+      res.redirect('/notification.html');
+      break;
+    case 'order':
+      res.redirect('/order.html');
+      break;
+    case 'receipt':
+      res.redirect('/receipt.html');
+      break;
+    case 'transportation':
+      res.redirect('/transportation.html');
+      break;
+    case 'history-login':
+      res.redirect('/history-login.html');
+      break;
+    default:
+      res.redirect('/login.html');
+  }
+});
+// Order
+app.get('/order', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'place':
+      // Handle place order logic
+      res.redirect('/order-placed');
+      break;
+    case 'view':
+      res.redirect('/order-view');
+      break;
+    case 'proceed-to-payment':
+      res.redirect('/payment.html'); // or wherever you want to redirect
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'order.html'));
+  }
+});
+
+
+
+// Cart
+app.get('/cart', (req, res) => {
+  const { button } = req.query;
+  switch (button) {
+    case 'add':
+      // Handle add product logic
+      const { productId, quantity } = req.query;
+      // Add product to cart
+      res.redirect('/cart.html');
+      break;
+    case 'remove':
+      // Handle remove product logic
+      const { productId } = req.query;
+      // Remove product from cart
+      res.redirect('/cart.html');
+      break;
+    case 'proceed-to-payment':
+      // Handle proceed to payment logic
+      const { totalAmount } = req.query;
+      res.redirect(`/payment.html?totalAmount=${totalAmount}`);
+      break;
+    case 'view':
+      res.sendFile(path.join(__dirname, 'public', 'cart.html'));
+      break;
+    default:
+      res.sendFile(path.join(__dirname, 'public', 'cart.html'));
+  }
+});
+
+// Payment
+app.get('/payment', (req, res) => {
+  const { totalAmount } = req.query;
+  res.sendFile(path.join(__dirname, 'public', 'payment.html'));
+  // Handle payment logic
+  // Post order details to database
+});
+
+// Database logic to store order details
+app.post('/place-order', (req, res) => {
+  const { products, totalAmount } = req.body;
+  // Store order details in database
+  res.send('Order placed successfully!');
+});
+
+
+// HTML pages
+app.get('/updateproduct', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'updateproduct.html'));
+});
+app.get('/cashier', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'cashier.html'));
+});
+
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+app.get('/blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'blog.html'));
+});
+
+app.get('/addcashier', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'addcashier.html'));
+});
+
+app.get('/addproduct', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'addproduct.html'));
+});
+
+app.get('/payment', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'payment.html'));
+});
+
+app.get('/receipt', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'receipt.html'));
+});
+
+app.get('/calculator', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'calculator.html'));
+});
+
+app.get('/index', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/register-login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'register-login.html'));
+});
+
+app.get('/signup', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'signup.html'));
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/widgets', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'widgets.html'));
+});
+
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
